@@ -16,6 +16,9 @@ app
   // Serve static files from ../public
   .use(express.static(resolve(__dirname, '..', 'public')))
 
+  // Serve our api
+  .use('/api', require('./api.js'))
+
 if (module === require.main) {
   // Start listening only if we're the main module.
   // 
