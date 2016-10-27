@@ -1,5 +1,5 @@
 {
-  "name": "💀{BONES_SKELETON_APP}💀",
+  "name": "💀{BONES_SKELETON_APP_NAME}💀",
   "version": "0.0.1",
   "description": "A happy little skeleton.",
   "main": "index.js",
