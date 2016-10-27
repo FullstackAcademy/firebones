@@ -1,2 +1,5 @@
+# Ignore all node_modules
 node_modules/*
+
+# ...except the symlink to ourselves.
 !node_modules/APP
