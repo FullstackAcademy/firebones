@@ -19,6 +19,9 @@ app
   // Serve our api
   .use('/api', require('./api.js'))
 
+  // Send index.html for anything else.
+  .use((_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
+
 if (module === require.main) {
   // Start listening only if we're the main module.
   // 
