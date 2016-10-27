@@ -6,7 +6,7 @@ module.exports = {
   entry: './browser/main.js',
   output: {
     path: __dirname,
-    filename: './build-output/bundle.js'
+    filename: './public/bundle.js'
   },
   context: __dirname,
   devtool: 'source-map',
