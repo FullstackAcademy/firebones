@@ -4,7 +4,10 @@
   "description": "A happy little skeleton.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha **/*.test.js *.test.js"
+    "test": "mocha **/*.test.js *.test.js",
+    "build": "webpack",
+    "build-watch": "webpack -w",
+    "start": "nodemon server/start.js"
   },
   "repository": {
     "type": "git",
