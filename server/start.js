@@ -1,15 +1,17 @@
+'use strict'
+
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const {resolve} = require('path')
-const package = require('../package.json')
+const pkg = require('../package.json')
 
 if (process.env.NODE_ENV !== 'production') {
   // Logging middleware (dev & testing only)
   app.use(require('volleyball'))
 }  
 
-app
+module.exports = app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
   
@@ -17,10 +19,10 @@ app
   .use(express.static(resolve(__dirname, '..', 'public')))
 
   // Serve our api
-  .use('/api', require('./api.js'))
+  .use('/api', require('./api'))
 
   // Send index.html for anything else.
-  .use((_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
+  .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
 
 if (module === require.main) {
   // Start listening only if we're the main module.
@@ -29,11 +31,8 @@ if (module === require.main) {
   const server = app.listen(
     process.env.PORT || 1337,
     () => {
-      console.log(`--- Started HTTP Server for ${package.name} ---`)      
+      console.log(`--- Started HTTP Server for ${pkg.name} ---`)      
       console.log(`Listening on ${JSON.stringify(server.address())}`)
     }
   )
 }
-
-module.exports = app
-
