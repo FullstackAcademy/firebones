@@ -1,10 +1,11 @@
 'use strict'
 
 const express = require('express')
-const app = express()
 const bodyParser = require('body-parser')
 const {resolve} = require('path')
-const pkg = require('../package.json')
+const pkg = require('APP')
+
+const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
   // Logging middleware (dev & testing only)
