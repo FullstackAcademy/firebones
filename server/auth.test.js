@@ -1,15 +1,18 @@
 const request = require('supertest-as-promised')
 const {expect} = require('chai')
+const db = require('APP/db')
 const User = require('APP/db/models/user')
 const app = require('./start')
 
 describe('/api/auth', () => {
   before('create a user', () =>
-    User.sync({force: true})
-      .then(_ => User.create({
-        email: 'alice@secrets.org',
-        password: '12345',
-      }))
+    db.didSync
+      .then(() =>
+        User.create({
+          email: 'alice@secrets.org',
+          password: '12345',
+        })
+      )
   )
 
   describe('POST /login (username, password)', () => {
