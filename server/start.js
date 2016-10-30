@@ -14,7 +14,7 @@ const pkg = require('APP')
 
 const app = express()
 
-if (process.env.NODE_ENV !== 'production') {
+if (!pkg.isProduction) {
   // Logging middleware (dev & testing only)
   app.use(require('volleyball'))
 }  
