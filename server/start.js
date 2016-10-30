@@ -23,7 +23,7 @@ module.exports = app
   // We'll store the whole session in a cookie
   .use(require('cookie-session') ({
     name: 'session',
-    keys: process.env.SESSION_SECRET || 'an insecure secret key',
+    keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
   }))
 
   // Body parsing middleware
