@@ -4,7 +4,7 @@
   "description": "A happy little skeleton.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha **/*.test.js *.test.js",
+    "test": "mocha app/**/*.test.js db/**/*.test.js server/**/*.test.js",
     "build": "webpack",
     "build-watch": "webpack -w",
     "start": "nodemon server/start.js"
@@ -45,6 +45,8 @@
     "babel-loader": "^6.2.7",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
     "volleyball": "^1.4.1",
     "webpack": "^1.13.3"
   }

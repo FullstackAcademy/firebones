@@ -21,4 +21,6 @@ if (!reasonableName.test(pkg.name)) {
   console.error(chalk.red(nameError))
 }
 
+pkg.isTesting = !!global.it
+
 module.exports = pkg

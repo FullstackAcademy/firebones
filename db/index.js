@@ -4,8 +4,10 @@ const chalk = require('chalk')
 const Sequelize = require('sequelize')
 const pkg = require('APP')
 
-const name = process.env.DATABASE_NAME || pkg.name
-const url = process.env.DATABASE_URL || `postgres://localhost:5432/${pkg.name}`
+const name = (process.env.DATABASE_NAME || pkg.name) +
+  (pkg.isTesting ? '_test' : '')
+
+const url = process.env.DATABASE_URL || `postgres://localhost:5432/${name}`
 
 console.log(chalk.yellow(`Opening database connection to ${url}`));
 
@@ -18,30 +20,26 @@ const db = module.exports = new Sequelize(url, {
     freezeTableName: true,   // don't change table names from the one specified
     timestamps: true,        // automatically include timestamp columns
   }
-});
+})
 
 // pull in our models
 require('./models')
 
 // sync the db, creating it if necessary
 function sync(opts) {
-  db.sync(opts)
+  return db.sync(opts)
     .then(ok => console.log(`Synced models to db ${url}`))
     .catch(fail => {
-      console.error(fail)
       if (process.env.NODE_ENV === 'production') {
         console.error(fail)
         return // Don't do this auto-create nonsense in prod
       }
       // Otherwise, do this autocreate nonsense
       console.log(`Creating database ${name}...`)
-      require('child_process')
-        .exec(`createdb "${name}"`, (err, _ok_) => {
-          if (err) {
-            return console.error(err)
-          }
-          sync({force: true})
-        })
+      return new Promise((resolve, reject) =>
+        require('child_process').exec(`createdb "${name}"`, resolve)
+      ).then(() => sync({force: true}))
     })
 }
-sync()
+
+db.didSync = sync()
