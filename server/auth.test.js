@@ -20,10 +20,10 @@ describe('/api/auth', () => {
       )
   )
 
-  describe('POST /login (username, password)', () => {
+  describe('POST /local/login (username, password)', () => {
     it('succeeds with a valid username and password', () =>
       request(app)
-        .post('/api/auth/login')
+        .post('/api/auth/local/login')
         .send(alice)
         .expect(302)
         .expect('Set-Cookie', /session=.*/)
@@ -32,7 +32,7 @@ describe('/api/auth', () => {
 
     it('fails with an invalid username and password', () =>
       request(app)
-        .post('/api/auth/login')
+        .post('/api/auth/local/login')
         .send({username: alice.username, password: 'wrong'})
         .expect(401)
       )      
@@ -42,7 +42,7 @@ describe('/api/auth', () => {
     describe('when logged in,', () => {
       const agent = request.agent(app)
       before('log in', () => agent
-        .post('/api/auth/login') 
+        .post('/api/auth/local/login') 
         .send(alice))
 
       it('responds with the currently logged in user', () =>
