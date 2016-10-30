@@ -7,7 +7,10 @@ api
   .use('/auth', require('./auth'))
   
   // Send along any errors
-  .use((err, req, res, next) => res.status(500).send(err))
+  .use((err, req, res, next) => {
+    console.error(err)
+    res.status(500).send(err)
+  })
 
   // No routes matched? 404.
   .use((req, res) => res.status(404).end())
