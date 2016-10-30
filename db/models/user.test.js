@@ -1,3 +1,5 @@
+'use strict'
+
 const db = require('APP/db')
 const User = require('./user')
 const {expect} = require('chai')

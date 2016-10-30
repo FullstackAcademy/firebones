@@ -2,10 +2,10 @@
 const debug = require('debug')('sql')
 const chalk = require('chalk')
 const Sequelize = require('sequelize')
-const pkg = require('APP')
+const app = require('APP')
 
-const name = (process.env.DATABASE_NAME || pkg.name) +
-  (pkg.isTesting ? '_test' : '')
+const name = (process.env.DATABASE_NAME || app.name) +
+  (app.isTesting ? '_test' : '')
 
 const url = process.env.DATABASE_URL || `postgres://localhost:5432/${name}`
 
@@ -30,7 +30,7 @@ function sync(opts) {
   return db.sync(opts)
     .then(ok => console.log(`Synced models to db ${url}`))
     .catch(fail => {
-      if (process.env.NODE_ENV === 'production') {
+      if (app.isProduction) {
         console.error(fail)
         return // Don't do this auto-create nonsense in prod
       }

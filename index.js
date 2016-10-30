@@ -4,7 +4,7 @@ const pkg = require('./package.json')
 
 const nameError =
 `*******************************************************************
- You need to give your app a name.
+ You need to give your app a proper name.
 
  The package name
 
@@ -16,11 +16,16 @@ Please change it in ${__dirname}/package.json
   ~ xoxo, bones
 ********************************************************************`
 
-const reasonableName = /^[\w\-]+$/
+const reasonableName = /^[[a-z0-9]\-]+$/
 if (!reasonableName.test(pkg.name)) {
   console.error(chalk.red(nameError))
 }
 
-pkg.isTesting = !!global.it
-
-module.exports = pkg
+module.exports = {
+  get name() { return pkg.name },
+  get isTesting() { return !!global.it },
+  get isProduction() {
+    return process.env.NODE_ENV === 'production'
+  },
+  package: pkg,
+}
