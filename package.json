@@ -4,11 +4,11 @@
   "description": "A happy little skeleton.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha app/**/*.test.js db/**/*.test.js server/**/*.test.js",
-    "test-watch": "mocha --watch app/**/*.test.js db/**/*.test.js server/**/*.test.js",
-    "build": "webpack",
-    "build-watch": "webpack -w",
-    "start": "nodemon server/start.js"
+    "test": "bin/setup && mocha app/**/*.test.js db/**/*.test.js server/**/*.test.js",
+    "test-watch": "bin/setup && mocha --watch app/**/*.test.js db/**/*.test.js server/**/*.test.js",
+    "build": "bin/setup && webpack",
+    "build-watch": "bin/setup && webpack -w",
+    "start": "bin/setup && nodemon server/start.js"
   },
   "repository": {
     "type": "git",

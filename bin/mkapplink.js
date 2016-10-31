@@ -1,5 +1,10 @@
+#!/usr/bin/env node
 
-const appLink = join(__dirname, 'node_modules', 'APP')
+const chalk = require('chalk')
+const fs = require('fs')
+const {resolve} = require('path')
+
+const appLink = resolve(__dirname, '..', 'node_modules', 'APP')
 
 const symlinkError = error =>
 `*******************************************************************
@@ -21,24 +26,28 @@ Then run me again.
 ********************************************************************`
 
 function makeAppSymlink() {
-  console.log(`Linking '${appLink}' to '..' ...`)
+  console.log(`Linking '${appLink}' to '..'`)
   try {    
-    fs.unlinkSync(appLink)
-    fs.linkSync(appLink, '..')
+    try { fs.unlinkSync(appLink) } catch(swallowed) { }
+    fs.symlinkSync('..', appLink)
   } catch (error) {
-    console.error(chalk.red(nameError))
+    console.error(chalk.red(symlinkError(error)))
     process.exit(1)
   }
   console.log(`Ok, created ${appLink}`)
 }
 
-function checkAppSymlink() {
+function ensureAppSymlink() {
   try {
-    const currently = fs.readlinkSync(appLink)
+    const currently = fs.readlinkSync(appLink)    
     if (currently !== '..') {
       throw new Error(`${appLink} is pointing to '${currently}' rather than '..'`)
     }
   } catch (error) {
     makeAppSymlink()
   }
+}
+
+if (module === require.main) {
+  ensureAppSymlink()
 }
