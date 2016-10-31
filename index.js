@@ -16,7 +16,7 @@ Please change it in ${__dirname}/package.json
   ~ xoxo, bones
 ********************************************************************`
 
-const reasonableName = /^[[a-z0-9]\-?]*$/
+const reasonableName = /^[a-z0-9_\-]+$/
 if (!reasonableName.test(pkg.name)) {
   console.error(chalk.red(nameError))
 }
