@@ -4,6 +4,10 @@ I'm a happy little skeleton. You can clone me to use as a starter on your projec
 I have React, Redux, Sequelize, and Express all just rattling around in here ready
 to go.
 
+## I need node >= 6.7.0
+
+If you don't have it, I'll complain and tell you how to install it.
+
 ## 1. Make me into something!
 
 Create a git repo however you want to. You can fork me on Github, but you can only do
@@ -56,11 +60,16 @@ assuming you're using postgres.
 
 `/server` has the Express server and routes. `start.js` is the entry point.
 
+`/bin` has scripts. (Right now it has *one* script that creates a useful symlink.)
+
 ## Conventions
 
 I use `require` and `module.exports` in `.js` files.
 
 I use `import` and `export` in `.jsx` files, unless `require` makes for cleaner code.
+
+I use two spaces, no semi-colons, and trailing commas where possible. I'll
+have a linter someday soon.
 
 
 
