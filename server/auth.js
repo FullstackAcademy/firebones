@@ -3,6 +3,7 @@ const debug = require('debug')(`${app.name}:auth`)
 const passport = require('passport')
 
 const User = require('APP/db/models/user')
+const OAuth = require('APP/db/models/oauth')
 const auth = require('express').Router()
 
 passport.serializeUser((user, done) => {
@@ -66,37 +67,14 @@ const facebook = passport => {
     console.error(`${__filename}: You need to set FACEBOOK_CLIENT_SECRET`)
     return      
   }
-  passport.use(new (require('passport-facebook').Strategy)(
-    {clientID, clientSecret, callbackURL},
-    OAuthTokens.loginV1))
-
-    (accessToken, refreshToken, profile, done) =>
-      OAuthTokens.loginV1
-      
-      findOrCreate({
-        where: {
-          domain: 'facebook.com',
-          uid: profile.id,
-        }})
-        .then(token => {
-          debug('facebook got facebook uid=%s', token.uid)
-          return {token, user: token.getUser()}
-        })
-        .then(({ token, user }) => user ||
-          User.create({
-            name: profile.displayName,
-            profile,
-          }).then(user => user.addToken(token)))
-        .then(user => {
-          debug('facebook auth got user id=%d', user.id)
-          done(null, user)
-        })
-        .catch(error => {
-          debug('facebook auth failed error=%s', error.message)
-          done(error)          
-        })
-  ))
+  passport.use(
+    new (require('passport-facebook').Strategy) (
+      {clientID, clientSecret, callbackURL},
+      OAuth.loginV2
+    )
+  )
 }
+facebook(passport)
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
