@@ -1,8 +1,8 @@
-const debug = require('debug')('auth')
+const app = require('APP')
+const debug = require('debug')(`${app.name}:auth`)
 const passport = require('passport')
 
 const User = require('APP/db/models/user')
-
 const auth = require('express').Router()
 
 passport.serializeUser((user, done) => {
@@ -48,6 +48,55 @@ passport.use(new (require('passport-local').Strategy) (
       .catch(done)
   }
 ))
+
+/******** Facebook **********/
+const env = require('APP').env
+const facebook = passport => {
+  if (!env.FACEBOOK_CLIENT_ID || !env.FACEBOOK_CLIENT_SECRET)
+    return
+
+  const clientID = env.FACEBOOK_CLIENT_ID
+    , clientSecret = env.FACEBOOK_CLIENT_SECRET
+    , callbackURL = '/api/auth/login/facebook'     
+  if (!clientID) {
+    console.error(`${__filename}: You need to set FACEBOOK_CLIENT_ID`)
+    return
+  }
+  if (!clientSecret) {
+    console.error(`${__filename}: You need to set FACEBOOK_CLIENT_SECRET`)
+    return      
+  }
+  passport.use(new (require('passport-facebook').Strategy)(
+    {clientID, clientSecret, callbackURL},
+    OAuthTokens.loginV1))
+
+    (accessToken, refreshToken, profile, done) =>
+      OAuthTokens.loginV1
+      
+      findOrCreate({
+        where: {
+          domain: 'facebook.com',
+          uid: profile.id,
+        }})
+        .then(token => {
+          debug('facebook got facebook uid=%s', token.uid)
+          return {token, user: token.getUser()}
+        })
+        .then(({ token, user }) => user ||
+          User.create({
+            name: profile.displayName,
+            profile,
+          }).then(user => user.addToken(token)))
+        .then(user => {
+          debug('facebook auth got user id=%d', user.id)
+          done(null, user)
+        })
+        .catch(error => {
+          debug('facebook auth failed error=%s', error.message)
+          done(error)          
+        })
+  ))
+}
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
