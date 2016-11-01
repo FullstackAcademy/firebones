@@ -16,21 +16,13 @@ const OAuth = db.define('oauths', {
   token: Sequelize.STRING,
   tokenSecret: Sequelize.STRING,
   
-  profile: Sequelize.TEXT,
+  // The whole profile as JSON
+  profileJson: Sequelize.JSON,
 }, {
 	indexes: [{fields: ['uid'], unique: true,}],
-  instanceMethods: {
-    authenticate(plaintext) {
-      return new Promise((resolve, reject) =>
-        bcrypt.compare(plaintext, this.password_digest,
-          (err, result) =>
-            err ? reject(err) : resolve(result))
-        )
-    }    
-  }
 })
 
-OAuth.loginV2 = (accessToken, refreshToken, profile, done) =>
+OAuth.V2 = (accessToken, refreshToken, profile, done) =>
   this.findOrCreate({
     where: {
       provider: profile.provider,
@@ -41,17 +33,45 @@ OAuth.loginV2 = (accessToken, refreshToken, profile, done) =>
         profile.provider,
         profile.displayName,
         token.uid)
-      return db.Promise.props({oauth, user: token.getUser()})
+      oauth.profileJson = profile
+      return db.Promise.props({
+        oauth,
+        user: token.getUser(),
+        _saveProfile: oauth.save(),
+      })
     })
     .then(({ oauth, user }) => user ||
       User.create({
         name: profile.displayName,        
       }).then(user => db.Promise.props({
         user,
-        _didSetToken: oauth.setUser(user)
+        _setOauthUser: oauth.setUser(user)
       }))
     )
     .then(({ user }) => done(null, user))
     .catch(done)
+
+
+OAuth.setupStrategy =
+({
+  provider,
+  strategy,
+  config,
+  oauth=OAuth.V2,
+  passport 
+}) => {      
+  const undefinedKeys = Object.keys(config)
+        .map(k => config[k])
+        .filter(value => typeof value === 'undefined')
+  if (undefinedKeys.length) {
+    undefinedKeys.forEach(key =>
+      debug('provider:%s: needs environment var %s', provider, key))
+    debug('provider:%s will not initialize', provider)
+    return
+  }
+
+  debug('initializing provider:%s', provider)
+  passport.use(new strategy(config, oauth))
+}
 
 module.exports = OAuth
