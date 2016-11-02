@@ -26,19 +26,25 @@ const db = module.exports = new Sequelize(url, {
 require('./models')
 
 // sync the db, creating it if necessary
-function sync(force=app.isTesting) {
+function sync(force=app.isTesting, retries=0, maxRetries=5) {
   return db.sync({force})
     .then(ok => console.log(`Synced models to db ${url}`))
     .catch(fail => {
-      if (app.isProduction) {
-        console.error(fail)
-        return // Don't do this auto-create nonsense in prod
+      // Don't do this auto-create nonsense in prod, or
+      // if we've retried too many times. 
+      if (app.isProduction || retries > maxRetries) {
+        console.error(chalk.red(`********** database error ***********`))
+        console.error(chalk.red(`    Couldn't connect to ${url}`))
+        console.error()
+        console.error(chalk.red(fail))
+        console.error(chalk.red(`*************************************`))
+        return
       }
       // Otherwise, do this autocreate nonsense
-      console.log(`Creating database ${name}...`)
+      console.log(`${retries ? `[retry ${retries}]` : ''} Creating database ${name}...`)
       return new Promise((resolve, reject) =>
         require('child_process').exec(`createdb "${name}"`, resolve)
-      ).then(() => sync(true))
+      ).then(() => sync(true, retries + 1))
     })
 }
 
