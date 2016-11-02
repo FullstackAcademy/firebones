@@ -20,6 +20,12 @@ export const login = (username, password) =>
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()))      
 
+export const logout = () =>
+  dispatch =>
+    axios.post('/api/auth/logout')
+      .then(() => dispatch(whoami()))
+      .catch(() => dispatch(whoami()))
+
 export const whoami = () =>
   dispatch =>
     axios.get('/api/auth/whoami')
