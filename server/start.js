@@ -14,10 +14,10 @@ const pkg = require('APP')
 
 const app = express()
 
-if (!pkg.isProduction) {
-  // Logging middleware (dev & testing only)
+if (!pkg.isProduction && !pkg.isTesting) {
+  // Logging middleware (dev only)
   app.use(require('volleyball'))
-}  
+}
 
 module.exports = app
   // We'll store the whole session in a cookie
