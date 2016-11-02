@@ -126,6 +126,10 @@ auth.post('/:strategy/login', (req, res, next) =>
   })(req, res, next)
 )
 
+auth.post('/logout', (req, res, next) => {
+  req.logout()
+  res.redirect('/api/auth/whoami')
+})
 
 module.exports = auth
 

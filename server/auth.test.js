@@ -52,13 +52,32 @@ describe('/api/auth', () => {
           .then(res => expect(res.body).to.contain({
             email: alice.username
           }))
-      )
+      )      
     })
 
     it('when not logged in, responds with an empty object', () =>
       request(app).get('/api/auth/whoami')
         .expect(200)
         .then(res => expect(res.body).to.eql({}))
+    )
+  })
+
+  describe('POST /logout when logged in', () => {
+    const agent = request.agent(app)
+
+    before('log in', () => agent
+      .post('/api/auth/local/login') 
+      .send(alice))
+
+    it('logs you out and redirects to whoami', () => agent
+      .post('/api/auth/logout')
+      .expect(302)
+      .expect('Location', '/api/auth/whoami')
+      .then(() =>
+        agent.get('/api/auth/whoami')
+          .expect(200)
+          .then(rsp => expect(rsp.body).eql({}))
+      )
     )
   })
 })
