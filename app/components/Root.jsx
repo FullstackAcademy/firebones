@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 
 export default class BonesJokes extends Component {
-  constructor() {
-    super()
-    this.nextJoke = this.nextJoke.bind(this)
-    this.answer = this.answer.bind(this)
-  }
-
   componentDidMount() {
     this.nextJoke()
   }
 
-  nextJoke() {
+  nextJoke = () =>
     this.setState({
       joke: randomJoke(),
       answered: false,
     })
-  }
 
-  answer() {
+  answer = () =>
     this.setState({answered: true})
-  }
 
   render() {
     if (!this.state) { return null }
