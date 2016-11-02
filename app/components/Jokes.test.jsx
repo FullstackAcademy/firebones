@@ -3,9 +3,9 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')())
 import {shallow} from 'enzyme'
 
-import BonesJokes from './Root'
+import Jokes from './Jokes'
 
-describe('<BonesJokes />', () => {
+describe('<Jokes />', () => {
   const joke = {
     q: 'Why did the skeleton write tests?',
     a: 'To see if she did anything bone-headed.',
@@ -13,7 +13,7 @@ describe('<BonesJokes />', () => {
 
   let root
   beforeEach('render the root', () =>
-    root = shallow(<BonesJokes />)
+    root = shallow(<Jokes />)
   )
 
   it('shows a joke', () => {    

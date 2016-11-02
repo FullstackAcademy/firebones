@@ -5,25 +5,26 @@ import {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 
 import store from './store'
-import Root from './components/Root'
+import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 
-const Main = connect(
+const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
 ) (
-  ({ user }) =>
+  ({ user, children }) =>
     <div>
-      {user ? <WhoAmI/> : <Login/>} 
-      <Root />
+      <nav>
+        {user ? <WhoAmI/> : <Login/>}
+      </nav> 
+      {children}
     </div>
 )
 
 render (
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={Main} />
-      <Route path="/login" component={Login} />      
+      <Route path="/" component={ExampleApp} />
     </Router>
   </Provider>,
   document.getElementById('main')
