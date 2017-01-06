@@ -34,51 +34,5 @@ describe('/api/users', () => {
           email: 'eve@interloper.com'
         }))        
     )
-
-    describe('DELETE', () => {
-      const alice = {
-        username: 'alice@users.org',
-        password: '12345'
-      }
-
-      const bob = {
-        username:'bob@secrets.org',
-        password:'asdf'
-      }
-
-      before('create two users', () => 
-        db.didSync
-        .then(() => Promise.all([
-          User.create({
-            email: alice.username,
-            password: alice.password
-          })
-          .then(_alice => alice.id = _alice.id),
-          User.create({
-            email: bob.username,
-            password: bob.password
-          })
-          .then(_bob => bob.id = _bob.id),
-        ]))
-      )
-
-      it('/:id fails 401 when user is not logged in', () =>
-        request(app)
-          .delete(`/api/users/${alice.id}`)
-          .then(401)        
-      )
-
-      describe('when logged in', () => {
-        const agent = request.agent(app)
-        before('log in alice', () => agent
-          .post('/api/auth/local/login') 
-          .send(alice))
-        
-        it('/:id fails 403 when user tries to delete someone besides themself', () =>
-            agent.delete(`/api/users/${bob.id}`)
-            .then(403)        
-        )
-      })
-    })
   })
 })

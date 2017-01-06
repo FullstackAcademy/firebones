@@ -18,20 +18,3 @@ module.exports = require('express').Router()
 		User.findById(req.params.id)
 		.then(user => res.json(user))
 		.catch(next))
-	// .delete('/:id', )
-
-// Custom routes go here.
-
-
-
-// Epilogue will automatically create standard RESTful routes
-// const users = epilogue.resource({
-//   model: db.model('users'),
-//   endpoints: ['/users', '/users/:id']
-// })
-
-// const {mustBeLoggedIn, selfOnly, forbidden} = epilogue.filters
-// users.delete.auth(mustBeLoggedIn)
-// users.delete.auth(selfOnly('delete'))
-// users.list.auth(forbidden('only admins can list users'))
-// users.read.auth(mustBeLoggedIn)
