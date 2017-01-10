@@ -4,6 +4,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const {resolve} = require('path')
 const passport = require('passport')
+const PrettyError = require('pretty-error')
+
 
 // Bones has a symlink from node_modules/APP to the root of the app.
 // That means that we can require paths relative to the app root by
@@ -18,6 +20,15 @@ if (!pkg.isProduction && !pkg.isTesting) {
   // Logging middleware (dev only)
   app.use(require('volleyball'))
 }
+
+// Pretty error prints errors all pretty.
+const prettyError = new PrettyError();
+
+// Skip events.js and http.js and similar core node files.
+prettyError.skipNodeFiles()
+
+// Skip all the trace lines about express' core and sub-modules.
+prettyError.skipPackage('express')
 
 module.exports = app
   // We'll store the whole session in a cookie
@@ -42,6 +53,12 @@ module.exports = app
 
   // Send index.html for anything else.
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
+
+  .use((err, req, res, next) => {
+    console.log(prettyError.render(err))
+    res.status(500).send(err)
+    next()
+  })
 
 if (module === require.main) {
   // Start listening only if we're the main module.
