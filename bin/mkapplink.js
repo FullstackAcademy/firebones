@@ -29,7 +29,7 @@ function makeAppSymlink() {
   console.log(`Linking '${appLink}' to '..'`)
   try {    
     try { fs.unlinkSync(appLink) } catch(swallowed) { }
-    fs.symlinkSync('..', appLink)
+    fs.symlinkSync('..', appLink, 'dir')
   } catch (error) {
     console.error(chalk.red(symlinkError(error)))
     process.exit(1)
