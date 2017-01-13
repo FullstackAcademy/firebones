@@ -71,5 +71,20 @@ I use `import` and `export` in `.jsx` files, unless `require` makes for cleaner 
 I use two spaces, no semi-colons, and trailing commas where possible. I'll
 have a linter someday soon.
 
+## Deploy to Heroku
 
-
+1. Set up the Heroku command line tools
+2. `heroku login`
+3. `npm install -g yarn` if you don't have it.
+3. `yarn add libpq pg-native`
+4. `touch .profile` and add these lines:
+```
+NODE_ENV=development yarn
+npm rebuild
+npm run build
+```
+5. `heroku create`
+6. `git commit -a -m "Set up .profile for heroku."`
+7. `git push heroku master`
+8. Add postgres: `heroku addons:create heroku-postgresql:hobby-dev`
+9. Seed the prod database: `heroku run db/seed`
