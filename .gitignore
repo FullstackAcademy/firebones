@@ -10,3 +10,6 @@ public/bundle.js.map
 
 # NPM errors
 npm-debug.log
+
+# Build timestamp files
+.build.*
