@@ -29,7 +29,7 @@
   "dependencies": {
     "axios": "^0.15.2",
     "babel-preset-stage-2": "^6.18.0",
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.4.0",
     "body-parser": "^1.15.2",
     "chai-enzyme": "^0.5.2",
     "chalk": "^1.1.3",
