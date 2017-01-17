@@ -1,6 +1,6 @@
 'use strict'
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
 const db = require('APP/db')
 
