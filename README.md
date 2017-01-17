@@ -17,7 +17,7 @@ that once (so weird!). You can also create a Github repo and clone it, or just d
 After you have a repo on your machine:
 
 ```
-git remote add bones https://github.com/queerviolet/bones.git
+git remote add bones https://github.com/FullstackAcademy/bones.git
 git fetch bones
 git merge bones/master
 ```
