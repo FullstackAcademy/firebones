@@ -75,7 +75,6 @@ have a linter someday soon.
 
 1. Set up the Heroku command line tools
 2. `heroku login`
-
 3.
   - *To create a new app...*
     1. `heroku create` or `heroku create your-app-name` if you have a name in mind.
