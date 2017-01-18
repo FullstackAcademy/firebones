@@ -12,19 +12,20 @@ blue='\033[0;34m'
 off='\033[0m'
 
 echoed() {
-    echo -e "${blue}${*}${off}"
+    echo "${blue}${*}${off}"
     $*
 }
 
 if [[ $(git status --porcelain 2> /dev/null | grep -v '$\?\?' | tail -n1) != "" ]]; then
-  echo -e "${red}Uncommitted changes would be lost. Commit or stash these changes:${off}"
-  echoed git status
+  echo "${red}Uncommitted changes would be lost. Commit or stash these changes:${off}"
+  git status
   exit 1
 fi
 
 # Our branch name is build/commit-sha-hash
 version="$(git log -n1 --pretty=format:%H)"
 branch_name="build/${version}"
+
 
 function create_build_branch() {
   git branch "${branch_name}"
