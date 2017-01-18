@@ -8,6 +8,8 @@
     "test-watch": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register --watch app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
     "build": "check-node-version --node '>= 6.7.0' && bin/setup && webpack",
     "build-watch": "check-node-version --node '>= 6.7.0' && bin/setup && webpack -w",
+    "build-branch": "bin/build-branch.sh",
+    "deploy-heroku": "bin/deploy-heroku.sh",
     "start": "check-node-version --node '>= 6.7.0' && bin/setup && nodemon server/start.js",
     "seed": "node db/seed.js"
   },
