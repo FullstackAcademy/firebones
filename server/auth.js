@@ -41,7 +41,7 @@ OAuth.setupStrategy({
   config: {
     clientID: env.FACEBOOK_CLIENT_ID,
     clientSecret: env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: `${app.rootUrl}/api/auth/login/facebook`,
+    callbackURL: `${app.baseUrl}/api/auth/login/facebook`,
   },
   passport
 })
@@ -54,7 +54,7 @@ OAuth.setupStrategy({
   config: {
     consumerKey: env.GOOGLE_CONSUMER_KEY,
     consumerSecret: env.GOOGLE_CONSUMER_SECRET,
-    callbackURL: `${app.rootUrl}/api/auth/login/google`,
+    callbackURL: `${app.baseUrl}/api/auth/login/google`,
   },
   passport
 })
@@ -67,7 +67,7 @@ OAuth.setupStrategy({
   config: {
     clientID: env.GITHUB_CLIENT_ID,
     clientSecrets: env.GITHUB_CLIENT_SECRET,
-    callbackURL: `${app.rootUrl}/api/auth/login/github`,
+    callbackURL: `${app.baseUrl}/api/auth/login/github`,
   },
   passport
 })
@@ -75,9 +75,7 @@ OAuth.setupStrategy({
 // Other passport configuration:
 
 passport.serializeUser((user, done) => {
-  debug('will serialize user.id=%d', user.id)
   done(null, user.id)
-  debug('did serialize user.id=%d', user.id)
 })
 
 passport.deserializeUser(
@@ -107,11 +105,11 @@ passport.use(new (require('passport-local').Strategy) (
         return user.authenticate(password)
           .then(ok => {
             if (!ok) {
-              debug('authenticate user(email: "%s") did fail: bad password')              
+              debug('authenticate user(email: "%s") did fail: bad password')
               return done(null, false, { message: 'Login incorrect' })
             }
             debug('authenticate user(email: "%s") did ok: user.id=%d', user.id)
-            done(null, user)              
+            done(null, user)
           })
       })
       .catch(done)
@@ -120,7 +118,7 @@ passport.use(new (require('passport-local').Strategy) (
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
-auth.post('/:strategy/login', (req, res, next) =>
+auth.post('/login/:strategy', (req, res, next) =>
   passport.authenticate(req.params.strategy, {
     successRedirect: '/'
   })(req, res, next)

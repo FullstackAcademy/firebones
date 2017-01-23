@@ -39,6 +39,8 @@ try {
   debug('%s: env file not found or invalid, moving on', secretsFile)  
 }
 
+const PORT = process.env.PORT || 1337
+
 module.exports = {
   get name() { return pkg.name },
   get isTesting() { return !!global.it },
