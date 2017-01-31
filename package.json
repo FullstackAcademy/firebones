@@ -4,7 +4,7 @@
   "description": "A happy little skeleton.",
   "main": "index.js",
   "scripts": {
-    "dev":"concurrently \"nodemon --exec npm build\" \"nodemon server\"",//should work after running npm run build once.
+    "dev":"concurrently \"nodemon --exec npm build\" \"nodemon server\"",
     "test": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
     "test-watch": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register --watch app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
     "build": "check-node-version --node '>= 6.7.0' && bin/setup && webpack",
