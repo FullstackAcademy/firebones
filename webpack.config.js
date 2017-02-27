@@ -1,7 +1,5 @@
 'use strict';
 
-var webpack = require('webpack');
-
 module.exports = {
   entry: './app/main.jsx',
   output: {
@@ -11,18 +9,18 @@ module.exports = {
   context: __dirname,
   devtool: 'source-map',
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx', '.json', '*']
   },
   module: {
-    loaders: [
-      {
-        test: /jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
+    rules: [{
+      test: /jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      use: [{
+        loader: 'babel-loader',
+        options: {
           presets: ['react', 'es2015', 'stage-2']
         }
-      }
-    ]
+      }]
+    }]
   }
 };
