@@ -69,7 +69,10 @@ if (module === require.main) {
     process.env.PORT || 1337,
     () => {
       console.log(`--- Started HTTP Server for ${pkg.name} ---`)
-      console.log(`Listening on ${JSON.stringify(server.address())}`)
+      const { address, port } = server.address()
+      const host = address === '::' ? 'localhost' : address
+      const urlSafeHost = host.includes(':') ? `[${host}]` : host
+      console.log(`Listening on http://${urlSafeHost}:${port}`)
     }
   )
 }
