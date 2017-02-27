@@ -4,15 +4,19 @@
   "description": "A happy little skeleton.",
   "main": "index.js",
   "scripts": {
-    "dev":"concurrently \"nodemon --exec npm build\" \"nodemon server\"",
-    "test": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
-    "test-watch": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register --watch app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
-    "build": "check-node-version --node '>= 6.7.0' && bin/setup && webpack",
-    "build-watch": "check-node-version --node '>= 6.7.0' && bin/setup && webpack -w",
+    "validate": "check-node-version --node '>= 6.7.0'",
+    "setup": "./bin/setup",
+    "prep": "npm run validate && npm run setup",
+    "postinstall": "npm run prep",
+    "build": "webpack",
+    "build-watch": "npm run build -- -w",
     "build-branch": "bin/build-branch.sh",
-    "deploy-heroku": "bin/deploy-heroku.sh",
-    "start": "check-node-version --node '>= 6.7.0' && bin/setup && nodemon server/start.js",
-    "seed": "node db/seed.js"
+    "start": "nodemon server/start.js --watch server",
+    "dev":"concurrently --kill-others --prefix \"[{name}]\" --names \"BUILD,SERVE\" -c \"bgBlue.bold.black,bgGreen.bold.black\" \"npm run build-watch\" \"npm start\"",
+    "test": "mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
+    "test-watch": "npm run test -- --watch",
+    "seed": "node db/seed.js",
+    "deploy-heroku": "bin/deploy-heroku.sh"
   },
   "repository": {
     "type": "git",
