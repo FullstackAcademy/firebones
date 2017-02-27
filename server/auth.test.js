@@ -20,10 +20,10 @@ describe('/api/auth', () => {
       )
   )
 
-  describe('POST /local/login (username, password)', () => {
+  describe('POST /login/local (username, password)', () => {
     it('succeeds with a valid username and password', () =>
       request(app)
-        .post('/api/auth/local/login')
+        .post('/api/auth/login/local')
         .send(alice)
         .expect(302)
         .expect('Set-Cookie', /session=.*/)
@@ -32,27 +32,27 @@ describe('/api/auth', () => {
 
     it('fails with an invalid username and password', () =>
       request(app)
-        .post('/api/auth/local/login')
+        .post('/api/auth/login/local')
         .send({username: alice.username, password: 'wrong'})
         .expect(401)
-      )      
+      )
   })
 
   describe('GET /whoami', () => {
     describe('when logged in,', () => {
       const agent = request.agent(app)
       before('log in', () => agent
-        .post('/api/auth/local/login') 
+        .post('/api/auth/login/local')
         .send(alice))
 
       it('responds with the currently logged in user', () =>
         agent.get('/api/auth/whoami')
-          .set('Accept', 'application/json')        
-          .expect(200)          
+          .set('Accept', 'application/json')
+          .expect(200)
           .then(res => expect(res.body).to.contain({
             email: alice.username
           }))
-      )      
+      )
     })
 
     it('when not logged in, responds with an empty object', () =>
@@ -66,7 +66,7 @@ describe('/api/auth', () => {
     const agent = request.agent(app)
 
     before('log in', () => agent
-      .post('/api/auth/local/login') 
+      .post('/api/auth/login/local')
       .send(alice))
 
     it('logs you out and redirects to whoami', () => agent
