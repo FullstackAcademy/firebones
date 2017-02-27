@@ -12,7 +12,7 @@
     "build-watch": "npm run build -- -w",
     "build-branch": "bin/build-branch.sh",
     "start": "nodemon server/start.js --watch server",
-    "dev": "concurrently --kill-others --prefix \"[{name}]\" --names \"BUILD,SERVE\" -c \"bgBlue.bold.black,bgGreen.bold.black\" \"npm run build-watch\" \"npm start\"",
+    "dev": "NODE_ENV=development concurrently --kill-others --prefix \"[{name}]\" --names \"BUILD,SERVE\" -c \"bgBlue.bold.black,bgGreen.bold.black\" \"npm run build-watch\" \"npm start\"",
     "test": "mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
     "test-watch": "npm run test -- --watch",
     "seed": "node db/seed.js",
