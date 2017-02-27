@@ -79,6 +79,7 @@
     "supertest": "^2.0.1",
     "supertest-as-promised": "^4.0.1",
     "volleyball": "^1.4.1",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-livereload-plugin": "^0.10.0"
   }
 }
