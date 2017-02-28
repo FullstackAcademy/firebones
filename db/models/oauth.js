@@ -57,7 +57,7 @@ OAuth.V2 = (accessToken, refreshToken, profile, done) =>
         _setOauthUser: oauth.setUser(user)
       }))
     )
-    .then(({ user }) => done(null, user))
+    .then(user => done(null, user))
     .catch(done)
 
 // setupStrategy is a wrapper around passport.use, and is called in authentication routes in server/auth.js
@@ -73,8 +73,9 @@ OAuth.setupStrategy =
         .map(k => config[k])
         .filter(value => typeof value === 'undefined')
   if (undefinedKeys.length) {
-    undefinedKeys.forEach(key =>
-      debug('provider:%s: needs environment var %s', provider, key))
+    for (let key in config) {
+      if (!config[key]) debug('provider:%s: needs environment var %s', provider, key)
+    }
     debug('provider:%s will not initialize', provider)
     return
   }
