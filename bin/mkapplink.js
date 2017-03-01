@@ -35,7 +35,8 @@ function makeAppSymlink() {
     // fs.unlinkSync docs: https://nodejs.org/api/fs.html#fs_fs_unlinksync_path
     try { fs.unlinkSync(appLink) } catch(swallowed) { }
     // fs.symlinkSync docs: https://nodejs.org/api/fs.html#fs_fs_symlinksync_target_path_type
-    fs.symlinkSync('..', appLink, 'dir')
+    const linkType = process.platform === 'win32' ? 'junction' : 'dir'
+    fs.symlinkSync('..', appLink, linkType)
   } catch (error) {
     console.error(chalk.red(symlinkError(error)))
     // process.exit docs: https://nodejs.org/api/process.html#process_process_exit_code
