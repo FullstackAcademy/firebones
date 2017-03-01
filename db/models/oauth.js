@@ -57,7 +57,7 @@ OAuth.V2 = (accessToken, refreshToken, profile, done) =>
         _setOauthUser: oauth.setUser(user)
       }))
     )
-    .then(user => done(null, user))
+    .then(({user}) => done(null, user))
     .catch(done)
 
 // setupStrategy is a wrapper around passport.use, and is called in authentication routes in server/auth.js
