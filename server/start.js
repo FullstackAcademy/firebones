@@ -55,10 +55,12 @@ module.exports = app
   // Send index.html for anything else.
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
 
+  // Error middleware interceptor, delegates to built-in Express behavior.
+  // https://github.com/expressjs/express/blob/master/lib/application.js#L162
+  // https://github.com/pillarjs/finalhandler/blob/master/index.js#L172
   .use((err, req, res, next) => {
     console.log(prettyError.render(err))
-    res.status(500).send(err)
-    next()
+    next(err)
   })
 
 if (module === require.main) {
