@@ -66,7 +66,7 @@ OAuth.setupStrategy({
   strategy: require('passport-github2').Strategy,
   config: {
     clientID: env.GITHUB_CLIENT_ID,
-    clientSecrets: env.GITHUB_CLIENT_SECRET,
+    clientSecret: env.GITHUB_CLIENT_SECRET,
     callbackURL: `${app.baseUrl}/api/auth/login/github`,
   },
   passport
