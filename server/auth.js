@@ -9,26 +9,26 @@ const auth = require('express').Router()
 
 /*************************
  * Auth strategies
- * 
+ *
  * The OAuth model knows how to configure Passport middleware.
  * To enable an auth strategy, ensure that the appropriate
  * environment variables are set.
- * 
+ *
  * You can do it on the command line:
- * 
+ *
  *   FACEBOOK_CLIENT_ID=abcd FACEBOOK_CLIENT_SECRET=1234 npm start
- * 
+ *
  * Or, better, you can create a ~/.$your_app_name.env.json file in
  * your home directory, and set them in there:
- * 
+ *
  * {
  *   FACEBOOK_CLIENT_ID: 'abcd',
  *   FACEBOOK_CLIENT_SECRET: '1234',
  * }
- * 
+ *
  * Concentrating your secrets this way will make it less likely that you
  * accidentally push them to Github, for example.
- * 
+ *
  * When you deploy to production, you'll need to set up these environment
  * variables with your hosting provider.
  **/
@@ -41,20 +41,20 @@ OAuth.setupStrategy({
   config: {
     clientID: env.FACEBOOK_CLIENT_ID,
     clientSecret: env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: `${app.rootUrl}/api/auth/login/facebook`,
+    callbackURL: `${app.baseUrl}/api/auth/login/facebook`,
   },
   passport
 })
 
-// Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
+// Google needs the GOOGLE_CLIENT_SECRET AND GOOGLE_CLIENT_ID
 // environment variables.
 OAuth.setupStrategy({
   provider: 'google',
-  strategy: require('passport-google-oauth').Strategy,
+  strategy: require('passport-google-oauth').OAuth2Strategy,
   config: {
-    consumerKey: env.GOOGLE_CONSUMER_KEY,
-    consumerSecret: env.GOOGLE_CONSUMER_SECRET,
-    callbackURL: `${app.rootUrl}/api/auth/login/google`,
+    clientID: env.GOOGLE_CLIENT_ID,
+    clientSecret: env.GOOGLE_CLIENT_SECRET,
+    callbackURL: `${app.baseUrl}/api/auth/login/google`,
   },
   passport
 })
@@ -66,18 +66,17 @@ OAuth.setupStrategy({
   strategy: require('passport-github2').Strategy,
   config: {
     clientID: env.GITHUB_CLIENT_ID,
-    clientSecrets: env.GITHUB_CLIENT_SECRET,
-    callbackURL: `${app.rootUrl}/api/auth/login/github`,
+    clientSecret: env.GITHUB_CLIENT_SECRET,
+    callbackURL: `${app.baseUrl}/api/auth/login/github`,
   },
   passport
 })
 
 // Other passport configuration:
-
+// Passport review in the Week 6 Concept Review:
+// https://docs.google.com/document/d/1MHS7DzzXKZvR6MkL8VWdCxohFJHGgdms71XNLIET52Q/edit?usp=sharing
 passport.serializeUser((user, done) => {
-  debug('will serialize user.id=%d', user.id)
   done(null, user.id)
-  debug('did serialize user.id=%d', user.id)
 })
 
 passport.deserializeUser(
@@ -95,6 +94,7 @@ passport.deserializeUser(
   }
 )
 
+// require.('passport-local').Strategy => a function we can use as a constructor, that takes in a callback
 passport.use(new (require('passport-local').Strategy) (
   (email, password, done) => {
     debug('will authenticate user(email: "%s")', email)
@@ -107,11 +107,11 @@ passport.use(new (require('passport-local').Strategy) (
         return user.authenticate(password)
           .then(ok => {
             if (!ok) {
-              debug('authenticate user(email: "%s") did fail: bad password')              
+              debug('authenticate user(email: "%s") did fail: bad password')
               return done(null, false, { message: 'Login incorrect' })
             }
-            debug('authenticate user(email: "%s") did ok: user.id=%d', user.id)
-            done(null, user)              
+            debug('authenticate user(email: "%s") did ok: user.id=%d', email, user.id)
+            done(null, user)
           })
       })
       .catch(done)
@@ -120,9 +120,16 @@ passport.use(new (require('passport-local').Strategy) (
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
-auth.post('/:strategy/login', (req, res, next) =>
+// POST requests for local login:
+auth.post('/login/local', passport.authenticate('local', { successRedirect: '/', }))
+
+// GET requests for OAuth login:
+// Register this route as a callback URL with OAuth provider
+auth.get('/login/:strategy', (req, res, next) =>
   passport.authenticate(req.params.strategy, {
-    successRedirect: '/'
+    scope: 'email',
+    successRedirect: '/',
+    // Specify other config here, such as "scope"
   })(req, res, next)
 )
 

@@ -20,24 +20,28 @@ Please change it in ${__dirname}/package.json
 ********************************************************************`
 
 const reasonableName = /^[a-z0-9\-_]+$/
+// RegExp.text docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
 if (!reasonableName.test(pkg.name)) {
   console.error(chalk.red(nameError))
 }
 
 // This will load a secrets file from
 //
-//      ~/.your_app_name.env.js 
+//      ~/.your_app_name.env.js
 //   or ~/.your_app_name.env.json
 //
 // and add it to the environment.
+// Note that this needs to be in your home directory, not the project's root directory
 const env = Object.create(process.env)
   , secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
 try {
   Object.assign(env, require(secretsFile))
 } catch (error) {
   debug('%s: %s', secretsFile, error.message)
-  debug('%s: env file not found or invalid, moving on', secretsFile)  
+  debug('%s: env file not found or invalid, moving on', secretsFile)
 }
+
+const PORT = process.env.PORT || 1337
 
 module.exports = {
   get name() { return pkg.name },
