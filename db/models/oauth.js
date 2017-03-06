@@ -1,6 +1,7 @@
 'use strict'
 
-const debug = require('debug')('oauth')
+const app = require('APP')
+const debug = require('debug')(`${app.name}:oauth`)
 const Sequelize = require('sequelize')
 const db = require('APP/db')
 const User = require('./user')
@@ -35,7 +36,7 @@ OAuth.V2 = (accessToken, refreshToken, profile, done) =>
     }
   })
   .spread(oauth => {
-    console.log(profile)
+    debug(profile)
     debug('provider:%s will log in user:{name=%s uid=%s}',
       profile.provider,
       profile.displayName,
