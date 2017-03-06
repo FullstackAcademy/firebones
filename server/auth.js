@@ -110,7 +110,7 @@ passport.use(new (require('passport-local').Strategy) (
               debug('authenticate user(email: "%s") did fail: bad password')
               return done(null, false, { message: 'Login incorrect' })
             }
-            debug('authenticate user(email: "%s") did ok: user.id=%d', user.id)
+            debug('authenticate user(email: "%s") did ok: user.id=%d', email, user.id)
             done(null, user)
           })
       })
