@@ -1,5 +1,6 @@
 'use strict'
 
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const {resolve} = require('path')
@@ -52,6 +53,17 @@ module.exports = app
 
   // Serve our api - ./api also requires in ../db, which syncs with our database
   .use('/api', require('./api'))
+
+  // any requests with an extension (.js, .css, etc.) turn into 404
+  .use((req, res, next) => {
+    if (path.extname(req.path).length) {
+      const err = new Error('Not found')
+      err.status = 404
+      next(err)
+    } else {
+      next()
+    }
+  })
 
   // Send index.html for anything else.
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
