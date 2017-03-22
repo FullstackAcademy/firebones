@@ -7,6 +7,7 @@ const NotFound = props => {
   return (
     <div>
       <h1>Sorry, I couldn't find <pre>{pathname}</pre></h1>
+      <p>The router gave me these props:</p>
       <pre>
         {JSON.stringify(props, null, 2)}
       </pre>      
