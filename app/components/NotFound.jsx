@@ -2,12 +2,16 @@ import React from 'react'
 import { Link } from 'react-router'
 
 const NotFound = props => {
-  console.log(props);
+  const {pathname} = props.location || {pathname: '<< no path >>'}
+  console.error('NotFound: %s not found (%o)', pathname, props);
   return (
     <div>
-      <h1>Not Found</h1>
-      <pre>{ props.location.pathname }</pre>
-      <p>is not a valid front-end route. <Link to="/">Click here</Link> to return to the home page.</p>
+      <h1>Sorry, I couldn't find <pre>{pathname}</pre></h1>
+      <pre>
+        {JSON.stringify(props, null, 2)}
+      </pre>      
+      <p>Lost? <Link to="/">Here's a way home.</Link></p>
+      <cite>~ xoxo, bones.</cite>
     </div>
   );
 }
