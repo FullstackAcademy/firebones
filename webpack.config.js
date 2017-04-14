@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const LiveReloadPlugin = require('webpack-livereload-plugin');
-const devMode = process.env.NODE_ENV === 'development';
+const LiveReloadPlugin = require('webpack-livereload-plugin')
+const devMode = require('.').isDevelopment
 
 /**
  * Fast source maps rebuild quickly during development, but only give a link
@@ -10,7 +10,7 @@ const devMode = process.env.NODE_ENV === 'development';
  * usable stack traces. Set to `true` if you want to speed up development.
  */
 
-const USE_FAST_SOURCE_MAPS = false;
+const USE_FAST_SOURCE_MAPS = false
 
 module.exports = {
   entry: './app/main.jsx',
@@ -42,4 +42,4 @@ module.exports = {
       appendScriptTag: true
     })
   ] : []
-};
+}

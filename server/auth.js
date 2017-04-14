@@ -16,7 +16,7 @@ const auth = require('express').Router()
  *
  * You can do it on the command line:
  *
- *   FACEBOOK_CLIENT_ID=abcd FACEBOOK_CLIENT_SECRET=1234 npm start
+ *   FACEBOOK_CLIENT_ID=abcd FACEBOOK_CLIENT_SECRET=1234 npm run dev
  *
  * Or, better, you can create a ~/.$your_app_name.env.json file in
  * your home directory, and set them in there:
