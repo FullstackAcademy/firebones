@@ -13,7 +13,7 @@
     "build-dev": "cross-env NODE_ENV=development npm run build-watch",
     "build-branch": "bin/build-branch.sh",
     "start": "node server/start.js",
-    "start-watch": "nodemon server/start.js --watch server --watch db",
+    "start-watch": "nodemon server/start.js --watch server --watch db --watch index.js --watch package.json",
     "start-dev": "cross-env NODE_ENV=development npm run start-watch",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others --prefix \"[{name}]\" --names \"BUILD,SERVE\" -c \"bgBlue.bold.black,bgGreen.bold.black\" \"npm run build-dev\" \"npm run start-dev\"",
     "test": "mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
