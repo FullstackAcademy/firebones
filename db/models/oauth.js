@@ -1,10 +1,10 @@
 'use strict'
 
 const app = require('APP')
-const debug = require('debug')(`${app.name}:oauth`)
-const Sequelize = require('sequelize')
-const db = require('APP/db')
-const User = require('./user')
+    , debug = require('debug')(`${app.name}:oauth`)
+    , Sequelize = require('sequelize')
+    , db = require('APP/db')
+    , User = require('./user')
 
 const OAuth = db.define('oauths', {
   uid: Sequelize.STRING,
@@ -24,7 +24,7 @@ const OAuth = db.define('oauths', {
   // Further reading on indexes:
   // 1. Sequelize and indexes: http://docs.sequelizejs.com/en/2.0/docs/models-definition/#indexes
   // 2. Postgres documentation: https://www.postgresql.org/docs/9.1/static/indexes.html
-	indexes: [{fields: ['uid'], unique: true,}],
+  indexes: [{fields: ['uid'], unique: true}],
 })
 
 // OAuth.V2 is a default argument for the OAuth.setupStrategy method - it's our callback function that will execute when the user has successfully logged in
@@ -79,7 +79,7 @@ OAuth.setupStrategy =
         .map(k => config[k])
         .filter(value => typeof value === 'undefined')
   if (undefinedKeys.length) {
-    for (let key in config) {
+    for (const key in config) {
       if (!config[key]) debug('provider:%s: needs environment var %s', provider, key)
     }
     debug('provider:%s will not initialize', provider)

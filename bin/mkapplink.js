@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 
+'use strict'
+
 // 'bin/setup' is a symlink pointing to this file, which makes a
 // symlink in your project's main node_modules folder that points to
 // the root of your project's directory.
 
 const chalk = require('chalk')
-const fs = require('fs')
-const {resolve} = require('path')
+    , fs = require('fs')
+    , {resolve} = require('path')
 
-const appLink = resolve(__dirname, '..', 'node_modules', 'APP')
+    , appLink = resolve(__dirname, '..', 'node_modules', 'APP')
 
-const symlinkError = error =>
+    , symlinkError = error =>
 `*******************************************************************
 ${appLink} must point to '..'
 
@@ -33,7 +35,7 @@ function makeAppSymlink() {
   console.log(`Linking '${appLink}' to '..'`)
   try {
     // fs.unlinkSync docs: https://nodejs.org/api/fs.html#fs_fs_unlinksync_path
-    try { fs.unlinkSync(appLink) } catch(swallowed) { }
+    try { fs.unlinkSync(appLink) } catch (swallowed) { }
     // fs.symlinkSync docs: https://nodejs.org/api/fs.html#fs_fs_symlinksync_target_path_type
     const linkType = process.platform === 'win32' ? 'junction' : 'dir'
     fs.symlinkSync('..', appLink, linkType)

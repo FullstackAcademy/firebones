@@ -1,18 +1,15 @@
 'use strict'
 const app = require('APP')
-const debugSQL = require('debug')('sql') // DEBUG=sql
-const debugDB = require('debug')(`${app.name}:db`) // DEBUG=your_app_name:db
-const chalk = require('chalk')
-const Sequelize = require('sequelize')
+    , debugSQL = require('debug')('sql')           // DEBUG=sql
+    , debugDB = require('debug')(`${app.name}:db`) // DEBUG=your_app_name:db
+    , chalk = require('chalk')
+    , Sequelize = require('sequelize')
 
-const name = (app.env.DATABASE_NAME || app.name) +
-  (app.isTesting ? '_test' : '')
+    , name = (app.env.DATABASE_NAME || app.name) +
+             (app.isTesting ? '_test' : '')
+    , url = app.env.DATABASE_URL || `postgres://localhost:5432/${name}`
 
-const url = app.env.DATABASE_URL || `postgres://localhost:5432/${name}`
-
-debugDB(chalk.yellow(`Opening database connection to ${url}`));
-
-// create the database instance
+debugDB(chalk.yellow(`Opening database connection to ${url}`))
 const db = module.exports = new Sequelize(url, {
   logging: debugSQL, // export DEBUG=sql in the environment to get SQL queries
   define: {
@@ -28,7 +25,7 @@ require('./models')
 // sync the db, creating it if necessary
 function sync(force=app.isTesting, retries=0, maxRetries=5) {
   return db.sync({force})
-    .then(ok => debugDB(`Synced models to db ${url}`))
+    .then(() => debugDB(`Synced models to db ${url}`))
     .catch(fail => {
       // Don't do this auto-create nonsense in prod, or
       // if we've retried too many times.
@@ -42,7 +39,7 @@ function sync(force=app.isTesting, retries=0, maxRetries=5) {
       }
       // Otherwise, do this autocreate nonsense
       debugDB(`${retries ? `[retry ${retries}]` : ''} Creating database ${name}...`)
-      return new Promise((resolve, reject) =>
+      return new Promise(resolve =>
         // 'child_process.exec' docs: https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
         require('child_process').exec(`createdb "${name}"`, resolve)
       ).then(() => sync(true, retries + 1))
