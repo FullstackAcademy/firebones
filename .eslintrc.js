@@ -15,9 +15,11 @@ module.exports = {
     "arrow-body-style": ["warn", "as-needed"],
 
     // This rule enforces a comma-first style, such as
-    // npm uses. It can look a bit weird, so we're leaving them
-    // out for now.
-    "comma-style": ["error", "first", {
+    // npm uses. I think it's great, but it can look a bit weird,
+    // so we're leaving it off for now (although stock Bones passes
+    // the linter with it on). If you decide you want to enforce
+    // this rule, change "off" to "error".
+    "comma-style": ["off", "first", {
       exceptions: {
         ArrayExpression: true,
         ObjectExpression: true,
