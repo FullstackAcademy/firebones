@@ -1,11 +1,12 @@
 'use strict'
 
 const db = require('APP/db')
-const User = require('./user')
-const {expect} = require('chai')
+    , User = require('./user')
+    , {expect} = require('chai')
+
+/* global describe it before afterEach */
 
 describe('User', () => {
-
   before('Await database sync', () => db.didSync)
   afterEach('Clear the tables', () => db.truncate({ cascade: true }))
 

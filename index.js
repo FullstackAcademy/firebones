@@ -1,11 +1,11 @@
 'use strict'
 
 const {resolve} = require('path')
-const chalk = require('chalk')
-const pkg = require('./package.json')
-const debug = require('debug')(`${pkg.name}:boot`)
+    , chalk = require('chalk')
+    , pkg = require('./package.json')
+    , debug = require('debug')(`${pkg.name}:boot`)
 
-const nameError =
+    , nameError =
 `*******************************************************************
  You need to give your app a proper name.
 
@@ -19,11 +19,11 @@ Please change it in ${__dirname}/package.json
   ~ xoxo, bones
 ********************************************************************`
 
-const reasonableName = /^[a-z0-9\-_]+$/
-// RegExp.text docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
-if (!reasonableName.test(pkg.name)) {
-  console.error(chalk.red(nameError))
-}
+    , reasonableName = /^[a-z0-9\-_]+$/
+
+    // RegExp.test docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
+    , _packageDoesntHaveAName = (name =>
+        reasonableName.test(name) || console.error(chalk.red(nameError)))()
 
 // This will load a secrets file from
 //
@@ -32,8 +32,9 @@ if (!reasonableName.test(pkg.name)) {
 //
 // and add it to the environment.
 // Note that this needs to be in your home directory, not the project's root directory
-const env = Object.create(process.env)
+    , env = Object.create(process.env)
     , secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
+
 try {
   const additionalEnv = require(secretsFile)
   Object.assign(env, additionalEnv)
