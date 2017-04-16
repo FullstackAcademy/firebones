@@ -2,23 +2,23 @@
 
 const app = require('APP')
     , debug = require('debug')(`${app.name}:oauth`)
-    , Sequelize = require('sequelize')
+    , {STRING, JSON} = require('sequelize')
 
 module.exports = db => {
   const OAuth = db.define('oauths', {
-    uid: Sequelize.STRING,
-    provider: Sequelize.STRING,
+    uid: STRING,
+    provider: STRING,
 
     // OAuth v2 fields
-    accessToken: Sequelize.STRING,
-    refreshToken: Sequelize.STRING,
+    accessToken: STRING,
+    refreshToken: STRING,
 
     // OAuth v1 fields
-    token: Sequelize.STRING,
-    tokenSecret: Sequelize.STRING,
+    token: STRING,
+    tokenSecret: STRING,
 
     // The whole profile as JSON
-    profileJson: Sequelize.JSON,
+    profileJson: JSON,
   }, {
     // Further reading on indexes:
     // 1. Sequelize and indexes: http://docs.sequelizejs.com/en/2.0/docs/models-definition/#indexes
