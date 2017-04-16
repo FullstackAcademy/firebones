@@ -4,6 +4,17 @@ const db = require('APP/db')
     , {User, Thing, Favorite, Promise} = db
     , {mapValues} = require('lodash')
 
+function seedEverything() {
+  const seeded = {
+    users: users(),
+    things: things(),
+  }
+
+  seeded.favorites = favorites(seeded)
+
+  return Promise.props(seeded)
+}
+
 const users = seed(User, {
   god: {
     email: 'god@example.com',
@@ -55,17 +66,6 @@ const favorites = seed(Favorite,
     },
   })
 )
-
-function seedEverything() {
-  const seeded = {
-    users: users(),
-    things: things(),
-  }
-
-  seeded.favorites = favorites(seeded)
-
-  return seeded
-}
 
 if (module === require.main) {
   db.didSync
