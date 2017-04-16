@@ -21,6 +21,7 @@ function run(tasks) {
 
 function task(command, {
   spawn=require('child_process').spawn,
+  path=require('path'),
   color
 }={}) {
   return name => {
@@ -31,7 +32,8 @@ function task(command, {
           stdio: 'pipe',
           env: Object.assign({}, process.env, {
             NODE_ENV: 'development',
-            PATH: `${app.root}/node_modules/.bin:${process.env.PATH}`
+            PATH: [ path.join(app.root, 'node_modules', '.bin')
+                  , process.env.PATH ].join(path.delimiter)
           })
         }).on('error', error => stderr(error))
           .on('exit', (code, signal) => {
