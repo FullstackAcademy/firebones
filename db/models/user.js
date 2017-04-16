@@ -3,9 +3,8 @@
 // bcrypt docs: https://www.npmjs.com/package/bcrypt
 const bcrypt = require('bcryptjs')
     , Sequelize = require('sequelize')
-    , db = require('APP/db')
 
-const User = db.define('users', {
+module.exports = db => db.define('users', {
   name: Sequelize.STRING,
   email: {
     type: Sequelize.STRING,
@@ -36,6 +35,10 @@ const User = db.define('users', {
   }
 })
 
+module.exports.associations = (User, {OAuth}) => {
+  User.hasOne(OAuth)
+}
+
 function setEmailAndPassword(user) {
   user.email = user.email && user.email.toLowerCase()
   if (!user.password) return Promise.resolve(user)
@@ -48,5 +51,3 @@ function setEmailAndPassword(user) {
     })
   )
 }
-
-module.exports = User
