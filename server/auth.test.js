@@ -1,7 +1,7 @@
 const request = require('supertest')
 const {expect} = require('chai')
 const db = require('APP/db')
-const User = require('APP/db/models/user')
+    , {User} = db
 const app = require('./start')
 
 const alice = {

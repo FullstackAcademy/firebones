@@ -20,7 +20,7 @@ const db = module.exports = new Sequelize(url, {
 })
 
 // pull in our models
-require('./models')
+Object.assign(db, require('./models'))
 
 // sync the db, creating it if necessary
 function sync(force=app.isTesting, retries=0, maxRetries=5) {
