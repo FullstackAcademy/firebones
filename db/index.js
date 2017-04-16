@@ -19,12 +19,28 @@ const db = module.exports = new Sequelize(url, {
   }
 })
 
-// pull in our models
+// The models will be accessible as db.ModelName.
+// With destructuring, we can require them like so:
+//
+//   const {User, Product} = require('APP/db')
+//
 Object.assign(db, require('./models'))
+
+// After defining all the models, sync the database.
+const _sync = db.sync
+db.sync = sync
+sync()
 
 // sync the db, creating it if necessary
 function sync(force=app.isTesting, retries=0, maxRetries=5) {
-  return db.sync({force})
+  // Chaining off db.didSync prevents us from trying to sync while we're
+  // syncing, which creates all kinds of weird errors.
+  //
+  // db.didSync will be undefined at first. Passing it to Promise.resolve
+  // protects us from that (Promise.resolve will resolve immediately with
+  // undefined).
+  db.didSync = Promise.resolve(db.didSync).then(pass, pass)
+    .then(() => _sync.call(db, {force}))
     .then(() => debugDB(`Synced models to db ${url}`))
     .catch(fail => {
       // Don't do this auto-create nonsense in prod, or
@@ -44,7 +60,8 @@ function sync(force=app.isTesting, retries=0, maxRetries=5) {
         require('child_process').exec(`createdb "${name}"`, resolve)
       ).then(() => sync(true, retries + 1))
     })
+
+  return db.didSync
 }
 
-// Note that db.didSync is a promise, rather than returning a promise
-db.didSync = sync()
+function pass() {}
