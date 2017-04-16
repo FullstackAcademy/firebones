@@ -127,9 +127,11 @@ auth.post('/login/local', passport.authenticate('local', {successRedirect: '/'})
 // Register this route as a callback URL with OAuth provider
 auth.get('/login/:strategy', (req, res, next) =>
   passport.authenticate(req.params.strategy, {
-    scope: 'email',
+    scope: 'email', // You may want to ask for additional OAuth scopes. These are
+                    // provider specific, and let you access additional data (like
+                    // their friends or email), or perform actions on their behalf.
     successRedirect: '/',
-    // Specify other config here, such as "scope"
+    // Specify other config here
   })(req, res, next)
 )
 
