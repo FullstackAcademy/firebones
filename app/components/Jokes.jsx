@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class BonesJokes extends Component {
   componentDidMount() {
@@ -17,7 +17,7 @@ export default class BonesJokes extends Component {
   render() {
     if (!this.state) { return null }
 
-    const {joke, answered} = this.state    
+    const {joke, answered} = this.state
     return (
       <div onClick={answered ? this.nextJoke : this.answer}>
         <h1>{joke.q}</h1>

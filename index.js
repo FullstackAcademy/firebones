@@ -19,11 +19,11 @@ Please change it in ${__dirname}/package.json
   ~ xoxo, bones
 ********************************************************************`
 
-    , reasonableName = /^[a-z0-9\-_]+$/
-
-    // RegExp.test docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
-    , _packageDoesntHaveAName = (name =>
-        reasonableName.test(name) || console.error(chalk.red(nameError)))()
+const reasonableName = /^[a-z0-9\-_]+$/
+// RegExp.test docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
+if (!reasonableName.test(pkg.name)) {
+  console.error(chalk.red(nameError))
+}
 
 // This will load a secrets file from
 //
@@ -32,7 +32,7 @@ Please change it in ${__dirname}/package.json
 //
 // and add it to the environment.
 // Note that this needs to be in your home directory, not the project's root directory
-    , env = Object.create(process.env)
+const env = Object.create(process.env)
     , secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
 
 try {
@@ -59,6 +59,9 @@ module.exports = {
   },
   get port() {
     return env.PORT || 1337
+  },
+  get root() {
+    return __dirname
   },
   package: pkg,
   env,
