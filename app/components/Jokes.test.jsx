@@ -1,10 +1,12 @@
 import React from 'react'
-import chai, {expect} from 'chai'                                                   
+import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')())
+
 import {shallow} from 'enzyme'
 
 import Jokes from './Jokes'
 
+/* global describe it beforeEach */
 describe('<Jokes />', () => {
   const joke = {
     q: 'Why did the skeleton write tests?',
@@ -16,10 +18,10 @@ describe('<Jokes />', () => {
     root = shallow(<Jokes />)
   )
 
-  it('shows a joke', () => {    
+  it('shows a joke', () => {
     root.setState({ joke, answered: false })
     expect(root.find('h1')).to.have.length(1)
-    expect(root.find('h1').text()).equal(joke.q)    
+    expect(root.find('h1').text()).equal(joke.q)
   })
 
   it("doesn't show the answer when state.answered=false", () => {
