@@ -71,6 +71,7 @@ if (module === require.main) {
   db.didSync
     .then(() => db.sync({force: true}))
     .then(seedEverything)
+    .finally(() => process.exit(0))
 }
 
 class BadRow extends Error {
