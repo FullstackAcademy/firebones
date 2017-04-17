@@ -14,6 +14,19 @@ const app = require('.')
       test: task(app.package.scripts['test-watch'], {color: yellow})
     })
 
+const taskEnvironment = (path=require('path')) => {
+  const env = {}
+  for (const key in process.env) {
+    env[key] = process.env[key]
+  }
+  Object.assign(env, {
+    NODE_ENV: 'development',
+    PATH: [ path.join(app.root, 'node_modules', '.bin')
+          , process.env.PATH ].join(path.delimiter)
+  })
+  return env
+}
+
 function run(tasks) {
   Object.keys(tasks)
     .map(name => tasks[name](name))
@@ -30,11 +43,7 @@ function task(command, {
         , proc = spawn(command, {
           shell: true,
           stdio: 'pipe',
-          env: Object.assign({}, process.env, {
-            NODE_ENV: 'development',
-            PATH: [ path.join(app.root, 'node_modules', '.bin')
-                  , process.env.PATH ].join(path.delimiter)
-          })
+          env: taskEnvironment(),
         }).on('error', stderr)
           .on('exit', (code, signal) => {
             stderr(`Exited with code ${code}`)
