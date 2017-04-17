@@ -35,7 +35,7 @@ function task(command, {
             PATH: [ path.join(app.root, 'node_modules', '.bin')
                   , process.env.PATH ].join(path.delimiter)
           })
-        }).on('error', error => stderr(error))
+        }).on('error', stderr)
           .on('exit', (code, signal) => {
             stderr(`Exited with code ${code}`)
             if (signal) stderr(`Exited with signal ${signal}`)
