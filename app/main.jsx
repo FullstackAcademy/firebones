@@ -12,7 +12,7 @@ import NotFound from './components/NotFound'
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
-) (
+)(
   ({ user, children }) =>
     <div>
       <nav>
@@ -22,7 +22,7 @@ const ExampleApp = connect(
     </div>
 )
 
-render (
+render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>

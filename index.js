@@ -1,11 +1,11 @@
 'use strict'
 
 const {resolve} = require('path')
-const chalk = require('chalk')
-const pkg = require('./package.json')
-const debug = require('debug')(`${pkg.name}:boot`)
+    , chalk = require('chalk')
+    , pkg = require('./package.json')
+    , debug = require('debug')(`${pkg.name}:boot`)
 
-const nameError =
+    , nameError =
 `*******************************************************************
  You need to give your app a proper name.
 
@@ -20,7 +20,7 @@ Please change it in ${__dirname}/package.json
 ********************************************************************`
 
 const reasonableName = /^[a-z0-9\-_]+$/
-// RegExp.text docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
+// RegExp.test docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
 if (!reasonableName.test(pkg.name)) {
   console.error(chalk.red(nameError))
 }
@@ -34,6 +34,7 @@ if (!reasonableName.test(pkg.name)) {
 // Note that this needs to be in your home directory, not the project's root directory
 const env = Object.create(process.env)
     , secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
+
 try {
   const additionalEnv = require(secretsFile)
   Object.assign(env, additionalEnv)
@@ -58,6 +59,9 @@ module.exports = {
   },
   get port() {
     return env.PORT || 1337
+  },
+  get root() {
+    return __dirname
   },
   package: pkg,
   env,

@@ -2,24 +2,23 @@
 
 // bcrypt docs: https://www.npmjs.com/package/bcrypt
 const bcrypt = require('bcryptjs')
-const Sequelize = require('sequelize')
-const db = require('APP/db')
+    , {STRING, VIRTUAL} = require('sequelize')
 
-const User = db.define('users', {
-  name: Sequelize.STRING,
+module.exports = db => db.define('users', {
+  name: STRING,
   email: {
-    type: Sequelize.STRING,
+    type: STRING,
     validate: {
-			isEmail: true,
-			notEmpty: true,
-		}
+      isEmail: true,
+      notEmpty: true,
+    }
   },
 
   // We support oauth, so users may or may not have passwords.
-  password_digest: Sequelize.STRING, // This column stores the hashed password in the DB, via the beforeCreate/beforeUpdate hooks
-	password: Sequelize.VIRTUAL // Note that this is a virtual, and not actually stored in DB
+  password_digest: STRING, // This column stores the hashed password in the DB, via the beforeCreate/beforeUpdate hooks
+  password: VIRTUAL // Note that this is a virtual, and not actually stored in DB
 }, {
-	indexes: [{fields: ['email'], unique: true,}],
+  indexes: [{fields: ['email'], unique: true}],
   hooks: {
     beforeCreate: setEmailAndPassword,
     beforeUpdate: setEmailAndPassword,
@@ -36,17 +35,20 @@ const User = db.define('users', {
   }
 })
 
+module.exports.associations = (User, {OAuth, Thing, Favorite}) => {
+  User.hasOne(OAuth)
+  User.belongsToMany(Thing, {as: 'favorites', through: Favorite})
+}
+
 function setEmailAndPassword(user) {
   user.email = user.email && user.email.toLowerCase()
   if (!user.password) return Promise.resolve(user)
 
   return new Promise((resolve, reject) =>
-	  bcrypt.hash(user.get('password'), 10, (err, hash) => {
-		  if (err) reject(err)
-		  user.set('password_digest', hash)
+    bcrypt.hash(user.get('password'), 10, (err, hash) => {
+      if (err) return reject(err)
+      user.set('password_digest', hash)
       resolve(user)
-	  })
+    })
   )
 }
-
-module.exports = User

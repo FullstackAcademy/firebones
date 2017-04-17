@@ -1,7 +1,6 @@
 const request = require('supertest')
 const {expect} = require('chai')
-const db = require('APP/db')
-const User = require('APP/db/models/user')
+const db = require('APP/db'), {User} = db
 const app = require('./start')
 
 const alice = {
@@ -9,8 +8,8 @@ const alice = {
   password: '12345'
 }
 
+/* global describe it before afterEach beforeEach */
 describe('/api/auth', () => {
-
   before('Await database sync', () => db.didSync)
   afterEach('Clear the tables', () => db.truncate({ cascade: true }))
 
@@ -22,7 +21,6 @@ describe('/api/auth', () => {
   )
 
   describe('POST /login/local (username, password)', () => {
-
     it('succeeds with a valid username and password', () =>
       request(app)
         .post('/api/auth/login/local')
@@ -38,23 +36,17 @@ describe('/api/auth', () => {
         .send({username: alice.username, password: 'wrong'})
         .expect(401)
       )
-
   })
 
   describe('GET /whoami', () => {
-
-    describe('when not logged in', () => {
-
+    describe('when not logged in', () =>
       it('responds with an empty object', () =>
         request(app).get('/api/auth/whoami')
           .expect(200)
           .then(res => expect(res.body).to.eql({}))
-      )
-
-    })
+      ))
 
     describe('when logged in', () => {
-
       // supertest agents persist cookies
       const agent = request.agent(app)
 
@@ -70,15 +62,11 @@ describe('/api/auth', () => {
             email: alice.username
           }))
       )
-
     })
-
   })
 
-  describe('POST /logout', () => {
-
+  describe('POST /logout', () =>
     describe('when logged in', () => {
-
       const agent = request.agent(app)
 
       beforeEach('log in', () => agent
@@ -95,9 +83,6 @@ describe('/api/auth', () => {
             .then(rsp => expect(rsp.body).eql({}))
         )
       )
-
     })
-
-  })
-
+  )
 })
