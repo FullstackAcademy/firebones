@@ -62,7 +62,7 @@ function log({
 
 const dateformat = require('dateformat')
 function timestamp() {
-  return dateformat('yyyy-MM-dd HH:MM:ss (Z)')
+  return dateformat('yyyy-mm-dd HH:MM:ss (Z)')
 }
 
 function none(x) { return x }
