@@ -20,7 +20,7 @@ const db = module.exports = new Sequelize(url, {
   }
 })
 
-// Initiailize all our models and assign them as properties
+// Initialize all our models and assign them as properties
 // on the database object.
 //
 // This lets us use destructuring to get at them like so:
