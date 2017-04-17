@@ -1,5 +1,6 @@
 module.exports = {
   extends: "eslint-config-standard",
+  root: true,
   parser: "babel-eslint",
   parserOptions: {
     sourceType: "module",
