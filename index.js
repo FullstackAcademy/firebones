@@ -33,7 +33,7 @@ if (!reasonableName.test(pkg.name)) {
 // and add it to the environment.
 // Note that this needs to be in your home directory, not the project's root directory
 const env = Object.create(process.env)
-    , secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
+    , secretsFile = resolve(require('homedir')(), `.${pkg.name}.env`)
 
 try {
   const additionalEnv = require(secretsFile)
