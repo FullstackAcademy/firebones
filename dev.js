@@ -16,7 +16,7 @@ const app = require('.')
 
 function run(tasks) {
   Object.keys(tasks)
-    .map(name => tasks[name](name, tasks[name]))
+    .map(name => tasks[name](name))
 }
 
 function task(command, {
