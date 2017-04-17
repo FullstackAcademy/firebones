@@ -37,9 +37,9 @@ module.exports = db => {
   This lets us move the association logic to the model files,
   so all the knowledge about the structure of each model remains
   self-contained.
-  
+
   The Sequelize docs suggest a similar setup:
-  
+
   https://github.com/sequelize/express-example#sequelize-setup
   */
   Object.keys(metaModels)
