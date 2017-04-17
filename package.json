@@ -23,8 +23,8 @@
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
     "deploy-heroku": "bin/deploy-heroku.sh",
-    "lint": "eslint --ext '.js,.jsx' .",
-    "lint-watch": "esw . --ext '.js,.jsx' -w"
+    "lint": "esw . --ext '.js,.jsx'",
+    "lint-watch": "npm run lint -- -w"
   },
   "repository": {
     "type": "git",
