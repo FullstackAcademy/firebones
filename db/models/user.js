@@ -41,8 +41,5 @@ function setEmailAndPassword(user) {
   if (!user.password) return Promise.resolve(user)
 
   return bcrypt.hash(user.get('password'), 10)
-    .then(hash => {
-      user.set('password_digest', hash)
-      return user
-    })
+    .then(hash => user.set('password_digest', hash))
 }
