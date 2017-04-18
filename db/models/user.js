@@ -45,5 +45,4 @@ function setEmailAndPassword(user) {
       user.set('password_digest', hash)
       return user
     })
-  )
 }
