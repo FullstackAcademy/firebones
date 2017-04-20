@@ -29,11 +29,7 @@ module.exports = db => db.define('users', {
   instanceMethods: {
     // This method is a Promisified bcrypt.compare
     authenticate(plaintext) {
-      return new Promise((resolve, reject) =>
-        bcrypt.compare(plaintext, this.password_digest,
-          (err, result) =>
-            err ? reject(err) : resolve(result))
-        )
+      return bcrypt.compare(plaintext, this.password_digest)
     }
   }
 })
@@ -47,11 +43,6 @@ function setEmailAndPassword(user) {
   user.email = user.email && user.email.toLowerCase()
   if (!user.password) return Promise.resolve(user)
 
-  return new Promise((resolve, reject) =>
-    bcrypt.hash(user.get('password'), 10, (err, hash) => {
-      if (err) return reject(err)
-      user.set('password_digest', hash)
-      resolve(user)
-    })
-  )
+  return bcrypt.hash(user.get('password'), 10)
+    .then(hash => user.set('password_digest', hash))
 }
