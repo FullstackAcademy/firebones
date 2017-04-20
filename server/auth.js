@@ -98,7 +98,7 @@ passport.use(new (require('passport-local').Strategy)(
   (email, password, done) => {
     debug('will authenticate user(email: "%s")', email)
     User.findOne({
-      where: {email}, 
+      where: {email},
       attributes: {include: ['password_digest']}
     })
       .then(user => {
