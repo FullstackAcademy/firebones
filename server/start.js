@@ -71,7 +71,7 @@ module.exports = app
   // Error middleware interceptor, delegates to same handler Express uses.
   // https://github.com/expressjs/express/blob/master/lib/application.js#L162
   // https://github.com/pillarjs/finalhandler/blob/master/index.js#L172
-  .use((err, req, res) => {
+  .use((err, req, res, next) => {
     console.error(prettyError.render(err))
     finalHandler(req, res)(err)
   })
