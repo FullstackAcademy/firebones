@@ -1,7 +1,7 @@
 {
   "name": "__BONES_NEEDS_A_NAME__",
   "version": "0.0.1",
-  "description": "A happy little skeleton.",
+  "description": "A happy little burning skeleton.",
   "main": "index.js",
   "engines": {
     "node": ">= 7.0.0"
@@ -16,13 +16,10 @@
     "build-watch": "npm run build -- -w",
     "build-dev": "cross-env NODE_ENV=development npm run build-watch",
     "build-branch": "bin/build-branch.sh",
-    "start": "node server/start.js",
-    "start-watch": "nodemon server/start.js --watch server --watch db --watch index.js --watch package.json",
-    "start-dev": "cross-env NODE_ENV=development npm run start-watch",
-    "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js db/**/*.test.js",
+    "start": "firebase serve",
+    "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js fire/**/*.test.js",
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
-    "deploy-heroku": "bin/deploy-heroku.sh",
     "lint": "esw . --ignore-path .gitignore --ext '.js,.jsx'",
     "lint-watch": "npm run lint -- -w",
     "prepush": "npm run lint && npm run test"
@@ -55,6 +52,8 @@
     "enzyme": "^2.5.1",
     "express": "^4.14.0",
     "finalhandler": "^1.0.0",
+    "firebase": "^3.9.0",
+    "firebase-tools": "^3.6.1",
     "homedir": "^0.6.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
