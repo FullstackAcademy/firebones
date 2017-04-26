@@ -11,8 +11,10 @@ import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Scratchpad from './components/Scratchpad'
 import firebase from 'APP/fire'
+const auth = firebase.auth()
+    , db = firebase.database()
 
-firebase.auth().onAuthStateChanged(user => user || firebase.auth().signInAnonymously())
+auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 const ExampleApp = ({children}) =>
   <div>
@@ -28,7 +30,7 @@ render(
       <Route path="/" component={ExampleApp}>
         <IndexRedirect to="/scratchpad" />
         <Route path="/jokes" component={Jokes} />
-        <Route path="/scratchpad" component={Scratchpad} />
+        <Route path="/scratchpad" component={() => <Scratchpad fireRef={db.ref('scratchpad')} />} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>

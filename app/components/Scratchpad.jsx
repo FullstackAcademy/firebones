@@ -3,15 +3,26 @@ import firebase from 'APP/fire'
 
 export default class extends React.Component {
   componentDidMount() {
-    this.unsubscribe = firebase.database().ref('scratchpad').on('value', snapshot => this.setState({value: snapshot.val()}))
+    console.log(this.props.fireRef)
+    this.listenTo(this.props.fireRef)
   }
 
   componentWillUnmount() {
     this.unsubscribe()
   }
 
-  write = (event) => firebase.database().ref('scratchpad')
-    .set(event.target.value)
+  componentWillReceiveProps(incoming, outgoing) {
+    this.listenTo(incoming.fireRef)
+  }
+
+  listenTo(fireRef) {
+    if (this.unsubscribe) this.unsubscribe()
+    const listener = fireRef.on('value', snapshot => this.setState({value: snapshot.val()}))
+    this.unsubscribe = () => fireRef.off('value', listener)
+  }
+
+  write = (event) => this.props.fireRef &&
+    this.props.fireRef.set(event.target.value)
 
   render() {
     const {value} = this.state || {}
