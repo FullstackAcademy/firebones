@@ -8,7 +8,7 @@ const app = require('.')
     , chalk = require('chalk'), {bold} = chalk
     , {red, green, blue, cyan, yellow} = bold
     , dev = module.exports = () => run({
-      server: task(app.package.scripts['start-watch'], {color: blue}),
+      server: task(app.package.scripts['start'], {color: blue}),
       build: task(app.package.scripts['build-watch'], {color: green}),
       lint: task(app.package.scripts['lint-watch'], {color: cyan}),
       test: task(app.package.scripts['test-watch'], {color: yellow})

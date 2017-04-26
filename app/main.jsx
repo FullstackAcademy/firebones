@@ -9,18 +9,17 @@ import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
+import firebase from 'APP/fire'
 
-const ExampleApp = connect(
-  ({ auth }) => ({ user: auth })
-)(
-  ({ user, children }) =>
-    <div>
-      <nav>
-        {user ? <WhoAmI/> : <Login/>}
-      </nav>
-      {children}
-    </div>
-)
+firebase.auth().onAuthStateChanged(user => user || firebase.auth().signInAnonymously())
+
+const ExampleApp = ({children}) =>
+  <div>
+    <nav>
+      <WhoAmI/>
+    </nav>
+    {children}
+  </div>
 
 render(
   <Provider store={store}>
