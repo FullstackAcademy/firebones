@@ -10,3 +10,6 @@ public/bundle.js.map
 
 # NPM errors
 npm-debug.log
+
+# Firebase debug log
+firebase-debug.log

@@ -9,6 +9,7 @@ import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
+import Scratchpad from './components/Scratchpad'
 import firebase from 'APP/fire'
 
 firebase.auth().onAuthStateChanged(user => user || firebase.auth().signInAnonymously())
@@ -25,8 +26,9 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/jokes" />
+        <IndexRedirect to="/scratchpad" />
         <Route path="/jokes" component={Jokes} />
+        <Route path="/scratchpad" component={Scratchpad} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>

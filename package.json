@@ -53,7 +53,6 @@
     "express": "^4.14.0",
     "finalhandler": "^1.0.0",
     "firebase": "^3.9.0",
-    "firebase-tools": "^3.6.1",
     "homedir": "^0.6.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",

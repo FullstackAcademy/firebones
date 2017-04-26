@@ -19,8 +19,9 @@ export default class extends React.Component {
     this.unsubscribe()
   }
   render() {
+    const {user} = this.state || {}
     return (
-      <WhoAmI user={this.state.user}/>
+      <WhoAmI user={user}/>
     )
   }
 }

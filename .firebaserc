@@ -1,1 +1,5 @@
-{}
+{
+  "projects": {
+    "firebones": "firebones-6bc2a"
+  }
+}
