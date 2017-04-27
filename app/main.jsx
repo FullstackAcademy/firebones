@@ -55,14 +55,12 @@ const App = ({children}) =>
   </div>
 
 render(
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <IndexRedirect to="scratchpad/welcome"/>
-        <Route path="scratchpad/:title" component={Scratchpad}/>
-      </Route>
-      <Route path='*' component={NotFound}/>
-    </Router>
-  </Provider>,
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRedirect to="scratchpad/welcome"/>
+      <Route path="scratchpad/:title" component={Scratchpad}/>
+    </Route>
+    <Route path='*' component={NotFound}/>
+  </Router>,
   document.getElementById('main')
 )
