@@ -1,17 +1,18 @@
-# Hi, I'm bones
+# Hi, I'm 🔥🔥firebones🔥🔥
 
-I'm a happy little skeleton. You can clone me to use as a starter on your projects!
-I have React, Redux, Sequelize, and Express all just rattling around in here ready
-to go.
+I'm a happy little skeleton who is totally on [fire(base)](https://firebase.google.com)!
 
-## I need node >= 6.7.0
+You can clone me to use as a starter on your projects. I have React and Firebase,
+and some examples of how to put them together.
+
+## I need node >= 7.0.0
 
 If you don't have it, I'll complain and tell you how to install it.
 
 ## 1. Make me into something!
 
 We recommend that you **clone**, not fork, this repo – unless your intention is
-to develop Bones proper instead of using Bones as the starting point for your
+to develop Firebones proper instead of using Firebones as the starting point for your
 own application.
 
 Start by doing either of the following:
@@ -22,7 +23,7 @@ Start by doing either of the following:
 After you have a repo on your machine:
 
 ```sh
-git remote add bones https://github.com/FullstackAcademy/bones.git
+git remote add bones https://github.com/FullstackAcademy/firebones.git
 git fetch bones
 git merge bones/master
 ```
@@ -35,14 +36,21 @@ git fetch bones
 git merge bones/master
 ```
 
-## 2. I need a name.
+## 2. Install the Firebase command line tools
 
-I don't have a name. I think I used to have one, but it turned to dust right along with my
-heart and liver and pituitary gland and all that stuff.
+You'll want this globally:
 
-Anyway, I'll need one. Give me a name in `package.json`.
+```sh
+npm install -g firebase-tools
+```
 
-## 3. Start my dusty heart
+If you just installed them, you'll need to log in:
+
+```sh
+firebase login
+```
+
+## 2. Start my dusty heart
 
 Short and sweet:
 
@@ -51,28 +59,58 @@ npm install
 npm run dev
 ```
 
-The `dev` script sets `NODE_ENV` to "development", runs the build script in watch mode, and
-starts the server with `nodemon`. Build vs server logs are separated by a prefix. If you prefer
-to run the server and build processes separately, you can instead do:
+The `dev` script runs webpack, `firebase serve`, the linter, and the tests. You can run these
+in separate terminals if you prefer:
 
 ```sh
-npm run start-dev
+npm run build-watch   # webpack
 ```
 
 ```sh
-npm run build-dev
+firebase serve        # Serve the app on port 5000
 ```
 
-In two separate terminals. The vanilla `npm start` is for production — you won't use it in development!
+```sh
+npm run test-watch    # Watch tests
+```
+
+```sh
+npm run lint-watch    # Watch lint
+```
+
+## 3. Tell me about your Firebase
+
+By default, I'm pointed at the firebones firebase. That might be nice for exploring,
+but soon you'll want to create your own.
+
+Go to [the Firebase console](https://console.firebase.google.com/) and create
+a project. Go to Overview in that project's console, and click "Add Firebase to your web app".
+
+Copy and paste that config into [fire/index.js](fire/index.js).
+
+## 4. Deploy
+
+The first time you deploy, you'll need to tell firebase which project to use:
+
+```sh
+firebase use --add
+```
+
+Then, and every time thereafter, just say,
+
+```sh
+firebase deploy
+```
+
+And I'll be deployed to Firebase hosting.
 
 ## My anatomy
 
-`/app` has the React/Redux setup. `main.jsx` is the entry point.
+`/app` has the React setup. `main.jsx` is the entry point.
 
-`/db` has the Sequelize models and database setup. It'll create the database for you if it doesn't exist,
-assuming you're using postgres.
+`/fire` has the Firebase config
 
-`/server` has the Express server and routes. `start.js` is the entry point.
+`/demos` has some demos (currently just a little scratchpad)
 
 `/bin` has scripts. (Right now it has *one* script that creates a useful symlink.)
 
@@ -82,23 +120,14 @@ I use `require` and `module.exports` in `.js` files.
 
 I use `import` and `export` in `.jsx` files, unless `require` makes for cleaner code.
 
-I use two spaces, no semi-colons, and trailing commas where possible. I'll
-have a linter someday soon.
+I use two spaces, no semi-colons, and generally prefer a less strict version of
+[NPM's funny coding style](https://docs.npmjs.com/misc/coding-style). My lint config is
+in [eslintrc.js](eslintrc.js).
 
-## Quick Heroku deployment
+## I'm picky
 
-1. Set up the [Heroku command line tools](https://devcenter.heroku.com/articles/heroku-cli) and install [Yarn](https://yarnpkg.com/en/) if you haven't already (`npm install -g yarn`)
-2. `heroku login`
-3. Add a git remote for heroku:
-  - **If you're creating a new app...**
-    1. `heroku create` or `heroku create your-app-name` if you have a name in mind.
-    2. `heroku addons:create heroku-postgresql:hobby-dev` to add postgres
-    3. `npm run deploy-heroku`. This will create a new branch and compile and commit your frontend JS to it, then push that branch to Heroku.
-    4. `heroku run npm run seed` to seed the database
+I come with  [husky](https://github.com/typicode/husky) to prevent you from pushing with broken
+tests or broken lint. This is really, really helpful in maintaining tests that are useful
+and code that follows at least some style, and you shouldn't turn it off.
 
-  - **If you already have a Heroku app...**
-    1.  `heroku git:remote your-app-name` You'll need to be a collaborator on the app.
-
-Afterwards,
-  - *To deploy:* `npm run deploy-heroku`
-  - *To re-seed:* `heroku run npm run seed`
+If you want to live in a state of sin, you can remove or edit the `prepush` package script.
