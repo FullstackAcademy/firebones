@@ -54,6 +54,7 @@
     "finalhandler": "^1.0.0",
     "firebase": "^3.9.0",
     "homedir": "^0.6.0",
+    "immutable": "^3.8.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-github2": "^0.1.10",
