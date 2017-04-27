@@ -8,9 +8,7 @@ import NotFound from './components/NotFound'
 
 import firebase from 'APP/fire'
 
-// -- // Demo components // -- //
-import Scratchpad from 'APP/demos/scratchpad'
-import Whiteboard from 'APP/demos/whiteboard'
+import Demos from 'APP/demos'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -56,9 +54,8 @@ const App = ({children}) =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRedirect to="scratchpad/welcome"/>
-      <Route path="scratchpad/:title" component={Scratchpad}/>
-      <Route path="whiteboard/:title" component={Whiteboard}/>
+      <IndexRedirect to="demos"/>
+      {Demos /* Put all the demos and a description page at /demos */}
     </Route>
     <Route path='*' component={NotFound}/>
   </Router>,
