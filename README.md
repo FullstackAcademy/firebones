@@ -89,6 +89,12 @@ a project. Go to Overview in that project's console, and click "Add Firebase to 
 Copy and paste the config from there into [fire/index.js](fire/index.js). You don't have to
 copy the call to `initializeApp`, I've already got that.
 
+Then, in your code, you can import firebase like so:
+
+```javascript
+import firebase from 'APP/fire'
+```
+
 ## 4. Deploy
 
 The first time you deploy, you'll need to tell firebase which project to use:
@@ -109,7 +115,7 @@ And I'll be deployed to Firebase hosting.
 
 `/app` has the React setup. `main.jsx` is the entry point.
 
-`/fire` has the Firebase config
+`/fire` has the Firebase config.
 
 `/demos` has some demos (currently just a little scratchpad)
 

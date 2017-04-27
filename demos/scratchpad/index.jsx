@@ -6,8 +6,8 @@ const db = firebase.database()
 import Scratchpad from './Scratchpad'
 
 // This component is a little piece of glue between React router
-// and our firebase component. It takes in props.params.title, and
-// shows the Scratchpad with that title.
+// and our Scratchpad component. It takes in props.params.title, and
+// shows the Scratchpad along with that title.
 export default ({params: {title}}) =>
   <div>
     <h1>{title}</h1>
