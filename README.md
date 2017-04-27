@@ -95,6 +95,8 @@ Then, in your code, you can import firebase like so:
 import firebase from 'APP/fire'
 ```
 
+This will be a 
+
 ## 4. Deploy
 
 The first time you deploy, you'll need to tell firebase which project to use:
@@ -117,7 +119,9 @@ And I'll be deployed to Firebase hosting.
 
 `/fire` has the Firebase config.
 
-`/demos` has some demos (currently just a little scratchpad)
+`/functions` is where your [cloud functions](https://firebase.google.com/preview/functions/write-firebase-functions) live.
+
+`/demos` has some demos (currently just a little scratchpad).
 
 `/bin` has scripts. (Right now it has *one* script that creates a useful symlink.)
 
