@@ -54,8 +54,8 @@ const App = ({children}) =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRedirect to="demos/scratchpad/welcome"/>
-      {Demos}
+      <IndexRedirect to="demos"/>
+      {Demos /* Put all the demos and a description page at /demos */}
     </Route>
     <Route path='*' component={NotFound}/>
   </Router>,
