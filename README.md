@@ -86,7 +86,8 @@ but soon you'll want to create your own.
 Go to [the Firebase console](https://console.firebase.google.com/) and create
 a project. Go to Overview in that project's console, and click "Add Firebase to your web app".
 
-Copy and paste that config into [fire/index.js](fire/index.js).
+Copy and paste the config from there into [fire/index.js](fire/index.js). You don't have to
+copy the call to `initializeApp`, I've already got that.
 
 ## 4. Deploy
 
@@ -128,6 +129,6 @@ in [eslintrc.js](eslintrc.js).
 
 I come with  [husky](https://github.com/typicode/husky) to prevent you from pushing with broken
 tests or broken lint. This is really, really helpful in maintaining tests that are useful
-and code that follows at least some style, and you shouldn't turn it off.
+and code that follows at least some style. Please don't turn off this helpful thing.
 
 If you want to live in a state of sin, you can remove or edit the `prepush` package script.
