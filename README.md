@@ -95,8 +95,6 @@ Then, in your code, you can import firebase like so:
 import firebase from 'APP/fire'
 ```
 
-This will be a 
-
 ## 4. Deploy
 
 The first time you deploy, you'll need to tell firebase which project to use:
