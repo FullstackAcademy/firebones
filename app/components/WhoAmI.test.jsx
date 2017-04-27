@@ -56,7 +56,7 @@ describe('<WhoAmI/>', () => {
       expect(root.find('button.logout')).to.have.length(1)
     })
 
-    it('calls props.logout when logout is tapped', () => {
+    it('calls props.auth.signOut when logout is tapped', () => {
       root.find('button.logout').simulate('click')
       expect(fakeAuth.signOut).to.have.been.called
     })
