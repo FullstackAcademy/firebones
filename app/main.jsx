@@ -9,17 +9,23 @@ import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
-import Scratchpad from './components/Scratchpad'
+
 import firebase from 'APP/fire'
+import Scratchpad from 'APP/demos/scratchpad'
+
 const auth = firebase.auth()
     , db = firebase.database()
 
-auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+auth.onAuthStateChanged(user => {
+  console.log(user)
+  user || auth.signInAnonymously()
+})
 
 const ExampleApp = ({children}) =>
   <div>
     <nav>
-      <WhoAmI/>
+      {/* We pass in the firebase authentication object to WhoAmI */}
+      <WhoAmI auth={auth}/>
     </nav>
     {children}
   </div>
@@ -28,11 +34,10 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/scratchpad" />
-        <Route path="/jokes" component={Jokes} />
-        <Route path="/scratchpad" component={() => <Scratchpad fireRef={db.ref('scratchpad')} />} />
+        <IndexRedirect to="scratchpad/welcome"/>
+        <Route path="scratchpad/:title" component={Scratchpad}/>
       </Route>
-      <Route path='*' component={NotFound} />
+      <Route path='*' component={NotFound}/>
     </Router>
   </Provider>,
   document.getElementById('main')

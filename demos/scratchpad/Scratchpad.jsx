@@ -44,7 +44,11 @@ export default class extends React.Component {
   render() {
     const {value} = this.state || {}
     return (
-      <textarea value={value} onChange={this.write}/>
+      <textarea
+        rows={10}
+        cols={120}
+        value={value}
+        onChange={this.write}/>
     )
   }
 }

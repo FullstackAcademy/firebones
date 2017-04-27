@@ -1,7 +1,7 @@
 const firebase = require('firebase')
 
 // Initialize Firebase
-var config = {
+const config = {
   apiKey: 'AIzaSyBzz-Wq2dzMgM7E8cdSYnYoX5fbVUT-XQo',
   authDomain: 'firebones-6bc2a.firebaseapp.com',
   databaseURL: 'https://firebones-6bc2a.firebaseio.com',
@@ -10,4 +10,4 @@ var config = {
   messagingSenderId: '1030378391678'
 }
 
-module.exports = firebase.initializeApp(config)
+module.exports = firebase.__bonesApp || (firebase.__bonesApp = firebase.initializeApp(config))

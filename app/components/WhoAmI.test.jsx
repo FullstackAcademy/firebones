@@ -7,45 +7,58 @@ chai.use(require('sinon-chai'))
 import {createStore} from 'redux'
 
 import WhoAmIContainer, {WhoAmI} from './WhoAmI'
+import Login from './Login'
 
 /* global describe it beforeEach */
 describe('<WhoAmI/>', () => {
-  const user = {
-    name: 'Dr. Bones',
-  }
-  const logout = spy()
-  let root
-  beforeEach('render the root', () =>
-    root = shallow(<WhoAmI user={user} logout={logout}/>)
-  )
+  describe('when nobody is logged in', () => {
+    let root
+    beforeEach('render the root', () =>
+      root = shallow(<WhoAmI/>)
+    )
 
-  it('greets the user', () => {
-    expect(root.text()).to.contain(user.name)
+    it('says hello to Nobody', () => {
+      expect(root.text()).to.contain('Nobody')
+    })
   })
 
-  it('has a logout button', () => {
-    expect(root.find('button.logout')).to.have.length(1)
+  describe('when an anonymous user is logged in', () => {
+    const user = {
+      displayName: null,
+      isAnonymous: true,
+    }
+    let root
+    beforeEach('render the root', () =>
+      root = shallow(<WhoAmI user={user}/>)
+    )
+
+    it('says hello to Anonymous', () => {
+      expect(root.text()).to.contain('Anonymous')
+    })
+
+    it('displays a Login component', () => {
+      expect(root.find(Login)).to.have.length(1)
+    })
   })
 
-  it('calls props.logout when logout is tapped', () => {
-    root.find('button.logout').simulate('click')
-    expect(logout).to.have.been.called
-  })
-})
+  describe('when a user is logged in', () => {
+    const user = {
+      isAnonymous: false,
+      displayName: 'Grace Hopper',
+    }
+    const fakeAuth = {signOut: spy()}
+    let root
+    beforeEach('render the root', () =>
+      root = shallow(<WhoAmI user={user} auth={fakeAuth}/>)
+    )
 
-describe("<WhoAmI/>'s connection", () => {
-  const state = {
-    auth: {name: 'Dr. Bones'}
-  }
+    it('has a logout button', () => {
+      expect(root.find('button.logout')).to.have.length(1)
+    })
 
-  let root, store, dispatch
-  beforeEach('create store and render the root', () => {
-    store = createStore(state => state, state)
-    dispatch = spy(store, 'dispatch')
-    root = shallow(<WhoAmIContainer store={store}/>)
-  })
-
-  it('gets prop.user from state.auth', () => {
-    expect(root.find(WhoAmI)).to.have.prop('user').eql(state.auth)
+    it('calls props.logout when logout is tapped', () => {
+      root.find('button.logout').simulate('click')
+      expect(fakeAuth.signOut).to.have.been.called
+    })
   })
 })

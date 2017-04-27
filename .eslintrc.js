@@ -30,6 +30,7 @@ module.exports = {
     "react/react-in-jsx-scope": "error",
 
     "import/first": "off",
+    "operator-linebreak": "off",
 
     // This rule enforces a comma-first style, such as
     // npm uses. I think it's great, but it can look a bit weird,
