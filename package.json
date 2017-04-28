@@ -21,8 +21,7 @@
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
     "lint": "esw . --ignore-path .gitignore --ext '.js,.jsx'",
-    "lint-watch": "npm run lint -- -w",
-    "prepush": "npm run lint && npm run test"
+    "lint-watch": "npm run lint -- -w"
   },
   "repository": {
     "type": "git",
@@ -92,7 +91,6 @@
     "eslint-plugin-react": "^6.10.3",
     "eslint-plugin-standard": "^3.0.1",
     "eslint-watch": "^3.1.0",
-    "husky": "^0.13.3",
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
     "supertest": "^3.0.0",

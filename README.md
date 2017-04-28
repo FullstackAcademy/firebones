@@ -132,11 +132,3 @@ I use `import` and `export` in `.jsx` files, unless `require` makes for cleaner 
 I use two spaces, no semi-colons, and generally prefer a less strict version of
 [NPM's funny coding style](https://docs.npmjs.com/misc/coding-style). My lint config is
 in [eslintrc.js](eslintrc.js).
-
-## I'm picky
-
-I come with  [husky](https://github.com/typicode/husky) to prevent you from pushing with broken
-tests or broken lint. This is really, really helpful in maintaining tests that are useful
-and code that follows at least some style. Please don't turn off this helpful thing.
-
-If you want to live in a state of sin, you can remove or edit the `prepush` package script.
