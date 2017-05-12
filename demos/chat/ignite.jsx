@@ -6,8 +6,20 @@ import React from 'react'
 //
 // Example:
 //
-//   const FireInput = ignite('input')
-//   <FireInput fireRef={db.ref('/some/path')} />
+//   const Hello = ignite(({value}) => <span>{value}</span>)
+//   <Hello fireRef={db.ref('/some/path')} />
+//
+// The inner component also receives a handy onChange handler, which receives
+// an *event*, and sets the value at the reference. You can attach it directly
+// to input controls:
+//
+//   const Editable = ignite(
+//     ({value, onChange}) =>
+//       <input value={value || ''} onChange={onChange} />
+//   )
+//   <Editable fireRef={db.ref('/some/path')}
+//
+// Also passed through are fireRef and snapshot. See the Chat component for a more thorough example.
 const ignite = Component => class extends React.Component {
   componentDidMount() {
     // When the component mounts, start listening to the fireRef
