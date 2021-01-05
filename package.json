@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/queerviolet/bones#readme",
   "dependencies": {
-    "axios": "^0.15.2",
+    "axios": "^0.21.1",
     "babel-preset-stage-2": "^6.18.0",
     "bcryptjs": "^2.4.0",
     "body-parser": "^1.15.2",
