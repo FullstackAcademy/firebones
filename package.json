@@ -69,7 +69,7 @@
     "redux-devtools-extension": "^2.13.0",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
-    "sequelize": "^3.24.6",
+    "sequelize": "^6.19.1",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0"
   },
